@@ -23,6 +23,22 @@
 -- 1 May 2004     0.0              John Kent
 -- Initial version developed from ioport.vhd
 --
+--
+-- Unkown date     0.0.1 found at Pacedev repository
+-- remove High Z output and and oe signal
+--
+-- 18 October 2017 0.0.2           DarFpga
+-- Set output to low level when in data is in input mode 
+-- (to avoid infered latch warning)
+--
+-- 5 September 2020 0.0.2           bontango
+-- Set output of 'PB' to parameter default_pb_level data is in input mode 
+-- to avoid solenoid activation in BallyFA
+--
+-- 22 December 2021 0.0.3           bontango
+-- fixed IRQ bug -> IRQA(B) was resettet with port read AND port write
+-- now reset is with port read only
+--
 --===========================================================================----
 --
 -- Memory Map
@@ -39,25 +55,30 @@ use ieee.std_logic_unsigned.all;
 
 entity pia6821 is
 	port (	
-	 clk       : in    std_logic;
+	 	clk       : in    std_logic;
     rst       : in    std_logic;
     cs        : in    std_logic;
     rw        : in    std_logic;
     addr      : in    std_logic_vector(1 downto 0);
     data_in   : in    std_logic_vector(7 downto 0);
-	 data_out  : out   std_logic_vector(7 downto 0);
-	 irqa      : out   std_logic;
-	 irqb      : out   std_logic;
-	 pa_i      : in    std_logic_vector(7 downto 0);
-	 pa_o      : out   std_logic_vector(7 downto 0);
-	 ca1       : in    std_logic;
-	 ca2_i     : in    std_logic;
-	 ca2_o     : out   std_logic;
-	 pb_i      : in    std_logic_vector(7 downto 0);
-	 pb_o      : out   std_logic_vector(7 downto 0);
-	 cb1       : in    std_logic;
-	 cb2_i     : in    std_logic;
-	 cb2_o     : out   std_logic
+	 	data_out  : out   std_logic_vector(7 downto 0);
+	 	irqa      : out   std_logic;
+	 	irqb      : out   std_logic;
+	 	pa_i      : in std_logic_vector(7 downto 0);
+	 	pa_o      : out std_logic_vector(7 downto 0);
+	 	pa_oe     : out std_logic_vector(7 downto 0);
+	 	ca1       : in    std_logic;
+	 	ca2_i     : in std_logic;
+	 	ca2_o     : out std_logic;
+	 	ca2_oe    : out std_logic;
+	 	pb_i      : in std_logic_vector(7 downto 0);
+	 	pb_o      : out std_logic_vector(7 downto 0);
+	 	pb_oe     : out std_logic_vector(7 downto 0);
+	 	cb1       : in    std_logic;
+	 	cb2_i     : in std_logic;
+	 	cb2_o     : out std_logic;
+	 	cb2_oe    : out std_logic;
+		default_pb_level : in std_logic
 	 );
 end;
 
@@ -108,12 +129,12 @@ begin
 --
 --------------------------------
 
-pia_read : process(  addr,	cs,
-                     irqa1, irqa2, irqb1, irqb2,
-                     porta_ddr,  portb_ddr,
-							porta_data, portb_data,
-							porta_ctrl, portb_ctrl,
-						   pa_i,       pb_i )
+pia_read : process(	addr,	cs, rw,
+                    irqa1, irqa2, irqb1, irqb2,
+                    porta_ddr,  portb_ddr,
+										porta_data, portb_data,
+										porta_ctrl, portb_ctrl,
+						   			pa_i,       pb_i )
 variable count : integer;
 begin
       case addr is
@@ -128,7 +149,7 @@ begin
               else
                 data_out(count) <= pa_i(count);
               end if;
-			     porta_read <= cs;
+			     porta_read <= cs and rw; -- 0.0.3 fix
             end if;
 			 end loop;
 			 portb_read <= '0';
@@ -149,7 +170,7 @@ begin
               else
                 data_out(count) <= pb_i(count);
 				  end if;
-				  portb_read <= cs;
+				  portb_read <= cs and rw;  -- 0.0.3 fix
             end if;
 			 end loop;
 			 porta_read <= '0';
@@ -176,8 +197,7 @@ end process;
 pia_write : process( clk, rst, addr, cs, rw, data_in,
                         porta_ctrl, portb_ctrl,
                         porta_data, portb_data,
-								porta_ctrl, portb_ctrl,
-								porta_ddr, portb_ddr )
+						porta_ddr, portb_ddr )
 begin
   if rst = '1' then
       porta_ddr   <= "00000000";
@@ -265,8 +285,10 @@ begin
   for count in 0 to 7 loop
     if porta_ddr(count) = '1' then
       pa_o(count) <= porta_data(count);
+		pa_oe(count) <= '1';
     else
-      pa_o(count) <= 'Z';
+      pa_o(count) <= '0'; 
+      pa_oe(count) <= '0';
     end if;
   end loop;
 end process;
@@ -380,9 +402,11 @@ end process;
 ca2_direction : process( porta_ctrl, ca2_out )
 begin
   if porta_ctrl(5) = '0' then
-    ca2_o <= 'Z';
+   ca2_oe <= '0';
+   ca2_o <= '0'; 
   else
-    ca2_o <= ca2_out;
+   ca2_o <= ca2_out;
+	ca2_oe <= '1';
   end if;
 end process;
 
@@ -397,8 +421,11 @@ begin
   for count in 0 to 7 loop
     if portb_ddr(count) = '1' then
       pb_o(count) <= portb_data(count);
+		pb_oe(count) <= '1';
     else
-      pb_o(count) <= 'Z';
+      --pb_o(count) <= '0'; 
+		pb_o(count) <= default_pb_level; 
+      pb_oe(count) <= '0';
     end if;
   end loop;
 end process;
@@ -513,9 +540,11 @@ end process;
 cb2_direction : process( portb_ctrl, cb2_out )
 begin
   if portb_ctrl(5) = '0' then
-    cb2_o <= 'Z';
+    cb2_oe <= '0';
+    cb2_o <=  '0'; 
   else
     cb2_o <= cb2_out;
+	 cb2_oe <= '1';
   end if;
 end process;
 
