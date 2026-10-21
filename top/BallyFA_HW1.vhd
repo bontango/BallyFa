@@ -1,29 +1,23 @@
--- BallyFA_HW1.vhd - board shell for the BallyFA base board HW 1.x
+-- BallyFA_HW1.vhd - board shell for the BallyFA base board HW 1.x on Cyclone IV / Cyclone 10
 --
 -- 'BallyFa' a Bally MPU on a low cost FPGA
 -- Ralf Thelen 'bontango' 04.2020
 -- www.lisy.dev
 --
--- TOP_LEVEL_ENTITY of every hw1_* variant (variants/hw1_*/variant.psd1, TopEntity).
--- It declares exactly the ports this base board has and instantiates the common
--- core top/Bally_core.vhd. What is the same on all boards belongs in the core;
--- this file only holds what makes HW 1.x different from HW 2.x:
+-- TOP_LEVEL_ENTITY of hw1_cyclone_iv, hw1_cyclone_iv_v4 and hw1_cyclone_10
+-- (variants/<n>/variant.psd1, TopEntity). The shell only declares the ports this board
+-- has and passes them to the common core top/Bally_core.vhd - all logic is in the core
+-- (HW_GEN => 1). Core ports the board does not have (USB) are left open or tied off.
 --
---   * LED_1 / LED_2 exist only here (PIN7 / PIN9 on the Cyclone II board) and are
---     held at '1', as before.
---   * LED_Bally / LED_SD_ERR sit on the pins HW 2.x uses for USB.
---   * No 4049 inverters on the inputs, so they go to the core unchanged.
---   * No USB / lisy_api.
---
--- Why a shell instead of one top level with VIRTUAL_PIN: the Cyclone II variants are
--- built with Quartus 13.0sp1, where VIRTUAL_PIN has no effect (Warning 292013). An
--- output port without a pin location would then be placed on a real pin and driven.
+-- Cyclone II uses top/BallyFA_HW1_cii.vhd instead: same ports minus the four FLASH_*
+-- pins, which the EP2C5 does not have as user I/O. Keep both port lists in step.
 --
 -- The instance name "core" is part of every node name below it - rtl/common/Bally.sdc
--- refers to Bally_core:core|... and HW2 uses the same name.
+-- refers to Bally_core:core|... and all four shells use the same name.
 
 library ieee;
 use ieee.std_logic_1164.all;
+use work.variant_pkg.all;
 
 entity BallyFA_HW1 is
 	port(
@@ -33,6 +27,12 @@ entity BallyFA_HW1 is
 		LED_0 	: out STD_LOGIC;	-- PIN3
 		LED_1 	: out STD_LOGIC;  -- PIN7
 		LED_2 	: out STD_LOGIC;	-- PIN9
+
+		-- configuration flash (dual purpose pins), see rtl/common/Flash_ROM.vhd
+		FLASH_DCLK	: out std_logic;
+		FLASH_NCS	: out std_logic;
+		FLASH_ASDO	: out std_logic;
+		FLASH_DATA0	: in  std_logic;
 
 		-- EEProm
 		C_EEPROM	:	buffer 	std_logic;
@@ -93,17 +93,23 @@ end;
 architecture rtl of BallyFA_HW1 is
 begin
 
-LED_1 <= '1';
-LED_2 <= '1';
-
 core: entity work.Bally_core
 generic map(
-	HW_DIGIT => x"F"	-- HW 1.x: no leading digit on the display
+	HW_GEN        => 1,
+	HAS_FLASH_ROM => HAS_FLASH_ROM	-- variants/<n>/variant_pkg.vhd
 )
 port map(
 	clk_50			=> clk_50,
 	reset_l			=> reset_l,
 	LED_0				=> LED_0,
+	LED_1				=> LED_1,
+	LED_2				=> LED_2,
+	FLASH_DCLK		=> FLASH_DCLK,
+	FLASH_NCS		=> FLASH_NCS,
+	FLASH_ASDO		=> FLASH_ASDO,
+	FLASH_DATA0		=> FLASH_DATA0,
+	USB_Rx			=> open,
+	USB_Tx			=> '1',
 	C_EEPROM			=> C_EEPROM,
 	S_EEPROM			=> S_EEPROM,
 	Q_EEPROM			=> Q_EEPROM,

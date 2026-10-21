@@ -11,13 +11,13 @@
 #   variants\hw1_cyclone_ii\pins.tcl
 #   scripts\files_common.tcl
 #   scripts\files_cyclone_ii.tcl
-#   scripts\files_hw1.tcl
+#   scripts\files_hw1_cii.tcl
 #
 # Aenderungen gehoeren in eines dieser Fragmente, nicht hierher.
 # ==========================================================================
 
 # --- board ---
-set_global_assignment -name TOP_LEVEL_ENTITY BallyFA_HW1
+set_global_assignment -name TOP_LEVEL_ENTITY BallyFA_HW1_cii
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C5T144C8
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -175,6 +175,9 @@ set_global_assignment -name VHDL_FILE ../../rtl/common/slow_to_fast_clock.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/zero_cross_clk_gen.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/pia6821.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/cpu68.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/uart_tx.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/uart_rx.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/lisy_api.vhd
 set_global_assignment -name VHDL_FILE ../../top/Bally_core.vhd
 set_global_assignment -name HEX_FILE ../../rom/elektra.hex
 set_global_assignment -name SDC_FILE ../../rtl/common/Bally.sdc
@@ -182,4 +185,4 @@ set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/U2andU6.qip
 set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/M6810.qip
 set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/SM5101.qip
 set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/R5101.qip
-set_global_assignment -name VHDL_FILE ../../top/BallyFA_HW1.vhd
+set_global_assignment -name VHDL_FILE ../../top/BallyFA_HW1_cii.vhd

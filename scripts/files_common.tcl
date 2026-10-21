@@ -13,8 +13,9 @@
 # Packages zuerst: variant_pkg liefert BOARD_ID, version_pkg die Softwareziffern.
 # variant_pkg.vhd steht ohne Pfad, weil es IM Projektverzeichnis liegt.
 #
-# Was nur eine Basisplatine braucht (Huelle, lisy_api), steht in files_hw1.tcl /
-# files_hw2.tcl. Debounce.vhd stand in sieben der alten .qsf, wurde aber nirgends
+# lisy_api (nur HW 2.x) steht trotzdem hier: der Kern instanziiert es in einem generate,
+# und Quartus loest Entity-Referenzen auch im NICHT genommenen Zweig auf (Error 10481).
+# Die Platinenhuelle steht in files_hw<n>[_cii].tcl. Debounce.vhd stand in sieben der alten .qsf, wurde aber nirgends
 # instanziiert - es ist nicht mitgekommen (liegt im Backup-ZIP unter Archive\).
 
 set_global_assignment -name VHDL_FILE variant_pkg.vhd
@@ -37,6 +38,9 @@ set_global_assignment -name VHDL_FILE ../../rtl/common/slow_to_fast_clock.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/zero_cross_clk_gen.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/pia6821.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/cpu68.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/uart_tx.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/uart_rx.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/lisy_api.vhd
 set_global_assignment -name VHDL_FILE ../../top/Bally_core.vhd
 
 # Initialisierungsdaten fuer U2andU6. Vorher stand im Wrapper "../ROMs/elektra.hex" - das

@@ -23,6 +23,10 @@ set_global_assignment -name DEVICE EP4CE6E22C8
 set_global_assignment -name LAST_QUARTUS_VERSION "22.1std.2 Lite Edition"
 set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 
 # --- shared globals ---
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
@@ -154,6 +158,10 @@ set_location_assignment PIN_64 -to S2_DIPS[4]
 set_location_assignment PIN_38 -to S2_DIPS[5]
 set_location_assignment PIN_31 -to S2_DIPS[6]
 set_location_assignment PIN_76 -to ZERO_CROSS
+set_location_assignment PIN_12 -to FLASH_DCLK
+set_location_assignment PIN_8 -to FLASH_NCS
+set_location_assignment PIN_6 -to FLASH_ASDO
+set_location_assignment PIN_13 -to FLASH_DATA0
 
 # --- sources ---
 set_global_assignment -name VHDL_FILE variant_pkg.vhd
@@ -175,6 +183,9 @@ set_global_assignment -name VHDL_FILE ../../rtl/common/slow_to_fast_clock.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/zero_cross_clk_gen.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/pia6821.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/cpu68.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/uart_tx.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/uart_rx.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/lisy_api.vhd
 set_global_assignment -name VHDL_FILE ../../top/Bally_core.vhd
 set_global_assignment -name HEX_FILE ../../rom/elektra.hex
 set_global_assignment -name SDC_FILE ../../rtl/common/Bally.sdc

@@ -72,14 +72,23 @@
 --                   between base board HW 1.x and HW 2.x, variants/<n>/variant_pkg.vhd
 --                   the FPGA board (BOARD_ID).
 --
--- Displayed version (boot message, display 1): [HW_DIGIT] BOARD_ID . SW_SUB1 SW_SUB2
---   HW_DIGIT  generic from the board shell: x"F" (blank) for HW 1.x, x"2" for HW 2.x
+--                  The base board differences moved into this core afterwards (generic
+--                   HW_GEN), so that the shells only declare ports: BallyFA_HW1/HW2 for
+--                   Cyclone IV/10 (with the configuration flash pins), BallyFA_HW1_cii/
+--                   HW2_cii for Cyclone II (without).
+--
+-- Displayed version (boot message, display 1): [HW digit] BOARD_ID . SW_SUB1 SW_SUB2
+--   HW digit  blank for HW 1.x, "2" for HW 2.x (generic HW_GEN)
 --   BOARD_ID  variants/<n>/variant_pkg.vhd: 1 Cyclone II, 2 Cyclone IV, 3 Cyclone IV v4.x, 4 Cyclone 10
 --   SW_SUB*   rtl/common/version_pkg.vhd - a release changes ONE digit there
 --
--- All inputs here are in HW 1.x polarity. HW 2.x has 4049 inverters in front of
--- CV_CH, ZERO_CROSS, S33, U10_PB, U10_CA1 and U11_CB1; BallyFA_HW2 inverts them back
--- before they reach this core.
+-- Base board, generic HW_GEN:
+--   1  HW 1.x: LED_1/LED_2 held at '1', inputs direct, no USB
+--   2  HW 2.x: 4049 inverters in front of CV_CH, ZERO_CROSS, S33, U10_PB, U10_CA1 and
+--      U11_CB1 - inverted back right at the input, so everything below works in HW 1.x
+--      polarity (before the common tree every use of these inputs carried a "not");
+--      USB serial (CH340) via lisy_api. LED_1/LED_2 do not exist on this board.
+-- Ports a board does not have are simply left open by its shell.
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -89,13 +98,27 @@ use work.version_pkg.all;
 
 entity Bally_core is
 	generic(
-		HW_DIGIT : std_logic_vector(3 downto 0)	-- see header
+		HW_GEN        : integer;	-- base board, 1 = HW 1.x, 2 = HW 2.x
+		HAS_FLASH_ROM : boolean	-- game ROMs from the configuration flash when no SD card answers
 	);
 	port(
 	   -- the FPGA board
 		clk_50	: in std_logic; 	-- PIN17
 		reset_l  : in std_logic; 	-- PIN144 --goes Low on reset(push)
 		LED_0 	: out STD_LOGIC;	-- PIN3
+		LED_1 	: out STD_LOGIC;	-- HW 1.x only
+		LED_2 	: out STD_LOGIC;	-- HW 1.x only
+
+		-- configuration flash, second source of the game ROMs (HAS_FLASH_ROM). Dual purpose
+		-- pins on Cyclone IV/10, not available on Cyclone II (shell leaves them open).
+		FLASH_DCLK	: out std_logic;
+		FLASH_NCS	: out std_logic;
+		FLASH_ASDO	: out std_logic;	-- data into the flash
+		FLASH_DATA0	: in  std_logic;	-- data out of the flash
+
+		-- USB serial CH340, HW 2.x only
+		USB_Rx		: out std_logic;
+		USB_Tx		: in  std_logic;
 
 		-- EEProm
 		C_EEPROM	:	buffer 	std_logic;
@@ -153,7 +176,24 @@ entity Bally_core is
 		);
 end;
 
-architecture rtl of Bally_core is 
+architecture rtl of Bally_core is
+
+-- leading digit of display 1: blank on HW 1.x, "2" on HW 2.x
+function hw_digit(gen : integer) return std_logic_vector is
+begin
+	if gen = 2 then
+		return x"2";
+	end if;
+	return x"F";
+end function;
+
+-- inputs in HW 1.x polarity (HW 2.x: 4049 inversion undone, see GEN_HW2)
+signal cv_ch_i			:	std_logic_vector(1 to 6);
+signal zero_cross_i	:	std_logic;
+signal s33_i			:	std_logic;
+signal u10_pb_i		:	std_logic_vector(7 downto 0);
+signal u10_ca1_i		:	std_logic;
+signal u11_cb1_i		:	std_logic;
 
 --internal signals via logic
 signal zc_stable			:	std_logic; -- Zero cross stable intern ( we have crossing clock domains)
@@ -254,6 +294,51 @@ begin
 -- reset_h <= (not reset_l); --now conrolled by SD card read process
 
 ----------------------
+-- base board (HW_GEN), two complementary generates - VHDL-93 has no else generate
+----------------------
+GEN_HW1: if HW_GEN = 1 generate
+	cv_ch_i      <= CV_CH;
+	zero_cross_i <= ZERO_CROSS;
+	s33_i        <= S33;
+	u10_pb_i     <= U10_PB;
+	u10_ca1_i    <= U10_CA1;
+	u11_cb1_i    <= U11_CB1;
+	LED_1 <= '1';
+	LED_2 <= '1';
+	USB_Rx <= '1';
+end generate;
+
+GEN_HW2: if HW_GEN = 2 generate
+	-- 4049 inverters (IC7, IC8, IC9) on the HW 2.x base board
+	cv_ch_i      <= not CV_CH;
+	zero_cross_i <= not ZERO_CROSS;
+	s33_i        <= not S33;
+	u10_pb_i     <= not U10_PB;
+	u10_ca1_i    <= not U10_CA1;
+	u11_cb1_i    <= not U11_CB1;
+	-- not on this board, the shell leaves them open
+	LED_1 <= '1';
+	LED_2 <= '1';
+
+	--lisy api (USB MPF beta)
+	mpf: entity work.lisy_api
+	port map(   
+		clk => clk_50,
+		rst => reset_l,
+		txd => USB_Rx,	
+		rxd => USB_Tx
+	);
+end generate;
+
+----------------------
+-- configuration flash: idle while HAS_FLASH_ROM is off (chip select high)
+----------------------
+GEN_NO_FLASH: if not HAS_FLASH_ROM generate
+	FLASH_DCLK <= '0';
+	FLASH_NCS  <= '1';
+	FLASH_ASDO <= '0';
+end generate;
+----------------------
 -- boot message
 ----------------------
 BM: entity work.boot_message
@@ -267,7 +352,7 @@ port map(
 	bcd_data	=> bm_bcd_data,
 	blanking	=> bm_blanking,
 	-- input (display data)
-	display1	=> ( x"F",x"F",HW_DIGIT,x"F",BOARD_ID,SW_SUB1,SW_SUB2 ),
+	display1	=> ( x"F",x"F",hw_digit(HW_GEN),x"F",BOARD_ID,SW_SUB1,SW_SUB2 ),
 	display2	=> ( x"F",x"F",x"F",x"F", dig2, dig1, dig0),
 	display3	=> ( x"F",x"0",x"5",x"0",x"9",x"6",x"3" ),
 	display4	=> ( x"F",x"F",x"F",x"F",x"F",x"F",x"F" ),
@@ -369,7 +454,7 @@ port map(
 	-- selection
 	selection => not S1_DIPS,	
 	-- write trigger
-	w_trigger(3) => U10_CA1,	-- self Test switch
+	w_trigger(3) => u10_ca1_i,	-- self Test switch
 	w_trigger(2) => U11_PB(5), -- coin lockout
 	w_trigger(1) => U11_PB(6), -- flipper disable
 	w_trigger(0) => not S2_DIPS(2), -- as trigger for testing	
@@ -405,9 +490,9 @@ port map(
       Return_0 => CV_Return_0,    -- #9 right chute
 		Return_1 => CV_Return_1,    -- #10 left chute
 		Return_2 => CV_Return_2,	 -- #11 middle
-		channel_1 => CV_CH(6), --2,-
-		channel_2 => CV_CH(4), -- 0,50cent
-		channel_3 => CV_CH(5)  -- 1.-
+		channel_1 => cv_ch_i(6), --2,-
+		channel_2 => cv_ch_i(4), -- 0,50cent
+		channel_3 => cv_ch_i(5)  -- 1.-
 	);
 
 pia_U10_pb_i(0) <= pia_U10_switches(0) or CV_Return_0 when S2_DIPS(5) = '0' else pia_U10_switches(0);
@@ -421,7 +506,7 @@ pia_U10_pb_i(7 downto 3) <= pia_U10_switches(7 downto 3);
 ----------------------	
 META1: entity work.Cross_Slow_To_Fast_Clock
 port map(
-   i_D => ZERO_CROSS,
+   i_D => zero_cross_i,
 	o_Q => zc_stable,
    i_Fast_Clk => cpu_clk
 	);
@@ -435,7 +520,7 @@ port map(
 
 META4: entity work.Cross_Slow_To_Fast_Clock
 port map(
-   i_D => S33,
+   i_D => s33_i,
 	o_Q => S33_stable,
    i_Fast_Clk => cpu_clk
 	);
@@ -500,7 +585,7 @@ DISP_BLANKING <= bm_blanking when bm_show = '1'
 ----------------------
 META2: entity work.Cross_Slow_To_Fast_Clock_Bus
 port map(
-   i_D => U10_PB,
+   i_D => u10_pb_i,
 	o_Q => pia_U10_switches,
    i_Fast_Clk => cpu_clk
 	);
@@ -641,7 +726,7 @@ port map(
 	irqb => pia_U10_irq_b,    
 	pa_i => x"FF",  			-- not used, output only  
 	pa_o => pia_U10_pa_o,   -- strobes, display data 
-	ca1 => U10_CA1,			-- self Test switch
+	ca1 => u10_ca1_i,			-- self Test switch
 	ca2_i => '1',    			-- not used, output only  
 	ca2_o => pia_U10_ca2_o, -- Display CTRL   
 	pb_i => pia_U10_pb_i,   -- Switch Returns (stabilized)	
@@ -670,7 +755,7 @@ port map(
 	ca2_o => pia_U11_ca2_o, -- Lamp Strobe #2, Green LED   
 	pb_i => x"FF",    		-- not used, output only  
 	pb_o => U11_PB,  	-- Solenoids	
-	cb1 => U11_CB1,    		-- J5 Pin32 plus Stern Lamp Int
+	cb1 => u11_cb1_i,    		-- J5 Pin32 plus Stern Lamp Int
 	cb2_i => '0',  			-- not used, output only  
 	cb2_o => U11_CB2,   		-- Solenoid/Sound Select
 	default_pb_level => '1'  -- output level when configured as input (solenoids)

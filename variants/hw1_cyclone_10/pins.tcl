@@ -85,3 +85,11 @@ set_location_assignment PIN_75 -to S2_DIPS[4]
 set_location_assignment PIN_38 -to S2_DIPS[5]
 set_location_assignment PIN_31 -to S2_DIPS[6]
 set_location_assignment PIN_76 -to ZERO_CROSS
+
+# Configuration flash EPCS16 (HAS_FLASH_ROM, rtl/common/Flash_ROM.vhd): the dedicated
+# configuration pins of the E22/E144 package, as in WillFA7 (~ALTERA_DCLK~ 12, ~ALTERA_DATA0~ 13,
+# ~ALTERA_FLASH_nCE_nCSO~ 8, ~ALTERA_ASDO_DATA1~ 6). Released as regular I/O in device.tcl.
+set_location_assignment PIN_12 -to FLASH_DCLK
+set_location_assignment PIN_8 -to FLASH_NCS
+set_location_assignment PIN_6 -to FLASH_ASDO
+set_location_assignment PIN_13 -to FLASH_DATA0
