@@ -11,14 +11,14 @@ Acht Varianten = vier FPGA-Boards × zwei Basisplatinen.
 
 | Variante | Basisplatine | FPGA-Board | Device | Quartus | Anzeige | ROMs aus dem Flash | Release |
 |---|---|---|---|---|---|---|---|
-| `hw1_cyclone_ii` | HW 1.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `1.30` | – | `bin/HW_v1.x/BallyFA_130.pof` |
-| `hw1_cyclone_iv` | HW 1.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2.30` | ja | `bin/HW_v1.x/BallyFA_230.jic` |
-| `hw1_cyclone_iv_v4` | HW 1.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `3.30` | ja | `bin/HW_v1.x/BallyFA_330.jic` |
-| `hw1_cyclone_10` | HW 1.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `4.30` | ja | `bin/HW_v1.x/BallyFA_430.jic` |
-| `hw2_cyclone_ii` | HW 2.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `2 1.30` | – | `bin/HW_v2.x/BallyFA_2_130.pof` |
-| `hw2_cyclone_iv` | HW 2.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2 2.30` | ja | `bin/HW_v2.x/BallyFA_2_230.jic` |
-| `hw2_cyclone_iv_v4` | HW 2.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `2 3.30` | ja | `bin/HW_v2.x/BallyFA_2_330.jic` |
-| `hw2_cyclone_10` | HW 2.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `2 4.30` | ja | `bin/HW_v2.x/BallyFA_2_430.jic` |
+| `hw1_cyclone_ii` | HW 1.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `1.30` | – | `bin/Cyclone_II/BallyFA_130.pof` |
+| `hw1_cyclone_iv` | HW 1.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2.30` | ja | `bin/Cyclone_IV/FPGA_board_v3.x/BallyFA_230.jic` |
+| `hw1_cyclone_iv_v4` | HW 1.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `3.30` | ja | `bin/Cyclone_IV/FPGA_board_v4.x/BallyFA_330.jic` |
+| `hw1_cyclone_10` | HW 1.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `4.30` | ja | `bin/cyclone_10/BallyFA_430.jic` |
+| `hw2_cyclone_ii` | HW 2.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `2 1.30` | – | `bin/Cyclone_II/BallyFA_2_130.pof` |
+| `hw2_cyclone_iv` | HW 2.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2 2.30` | ja | `bin/Cyclone_IV/FPGA_board_v3.x/BallyFA_2_230.jic` |
+| `hw2_cyclone_iv_v4` | HW 2.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `2 3.30` | ja | `bin/Cyclone_IV/FPGA_board_v4.x/BallyFA_2_330.jic` |
+| `hw2_cyclone_10` | HW 2.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `2 4.30` | ja | `bin/cyclone_10/BallyFA_2_430.jic` |
 
 Die x.23-Releases in `bin/` stammen noch aus den alten Projektordnern, x.30 ist das erste aus
 diesem Baum.
@@ -71,7 +71,9 @@ rom/elektra.hex        Vorbelegung von U2andU6 (zur Laufzeit von der SD-Karte ü
 variants/<name>/       variant.psd1, device.tcl, pins.tcl, variant_pkg.vhd,
                        Bally.qpf, [Bally.cof, bally_roms.cof]  +  Bally.qsf (GENERIERT)
 scripts/               gen_qsf.ps1, check.ps1, build.ps1, release.ps1, make_flash_hex.ps1, baseline.csv
-bin/                   ausgelieferte .pof/.jic je Basisplatine + Changelog.txt
+bin/                   ausgelieferte .pof/.jic nach FPGA-Board wie WillFA7: Cyclone_II/,
+                       Cyclone_IV/FPGA_board_v3.x/ (F17), Cyclone_IV/FPGA_board_v4.x/ (E22),
+                       cyclone_10/ - HW 2.x am Namen BallyFA_2_... erkennbar; Changelog.txt
 docs/                  WORKFLOW.md
 ```
 

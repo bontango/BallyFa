@@ -15,11 +15,11 @@
 
 -- Version x.30 (alle Boards) game ROMs from the configuration flash when no SD card answers (Cyclone IV/10, slots 0..191); Bally.sdc hold fix; core with HW_GEN
    2026-10-21 17:58
-   hw1_cyclone_10     4.30     HW_v1.x\BallyFA_430.jic      sha256:877E959EFE57C206
-   hw1_cyclone_ii     1.30     HW_v1.x\BallyFA_130.pof      sha256:A81CDFD9BCBF1319
-   hw1_cyclone_iv     2.30     HW_v1.x\BallyFA_230.jic      sha256:3EB6ECD40A313441
-   hw1_cyclone_iv_v4  3.30     HW_v1.x\BallyFA_330.jic      sha256:C6F7BE36CDEC7B33
-   hw2_cyclone_10     2_4.30   HW_v2.x\BallyFA_2_430.jic    sha256:F49E9B00019590FF
-   hw2_cyclone_ii     2_1.30   HW_v2.x\BallyFA_2_130.pof    sha256:4D103829582B9F5B
-   hw2_cyclone_iv     2_2.30   HW_v2.x\BallyFA_2_230.jic    sha256:A841801951AA7401
-   hw2_cyclone_iv_v4  2_3.30   HW_v2.x\BallyFA_2_330.jic    sha256:355DE9FB31B13DDE
+   hw1_cyclone_10     4.30     cyclone_10\BallyFA_430.jic      sha256:877E959EFE57C206
+   hw1_cyclone_ii     1.30     Cyclone_II\BallyFA_130.pof      sha256:A81CDFD9BCBF1319
+   hw1_cyclone_iv     2.30     Cyclone_IV\FPGA_board_v3.x\BallyFA_230.jic      sha256:3EB6ECD40A313441
+   hw1_cyclone_iv_v4  3.30     Cyclone_IV\FPGA_board_v4.x\BallyFA_330.jic      sha256:C6F7BE36CDEC7B33
+   hw2_cyclone_10     2_4.30   cyclone_10\BallyFA_2_430.jic    sha256:F49E9B00019590FF
+   hw2_cyclone_ii     2_1.30   Cyclone_II\BallyFA_2_130.pof    sha256:4D103829582B9F5B
+   hw2_cyclone_iv     2_2.30   Cyclone_IV\FPGA_board_v3.x\BallyFA_2_230.jic    sha256:A841801951AA7401
+   hw2_cyclone_iv_v4  2_3.30   Cyclone_IV\FPGA_board_v4.x\BallyFA_2_330.jic    sha256:355DE9FB31B13DDE

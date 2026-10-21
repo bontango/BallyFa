@@ -6,7 +6,7 @@
     TopEntity   = 'BallyFA_HW1_cii'   # Platinenhuelle top/BallyFA_HW1_cii.vhd (ohne FLASH-Pins)
     RtlFamily   = 'cyclone_ii'      # welcher rtl\<familie>\-Ordner
     Options     = @('hw1_cii')       # scripts\files_hw1_cii.tcl
-    BinFolder   = 'HW_v1.x'
+    BinFolder   = 'Cyclone_II'   # wie WillFA7: bin\ nach FPGA-Board, Basisplatine steht im Dateinamen
     ReleasePrefix   = 'BallyFA_'   # BallyFA_<BoardId><Sub1><Sub2>.pof
     ReleaseArtifact = 'pof'
     Dormant     = $false

@@ -1,4 +1,4 @@
-# release.ps1 - Varianten bauen, die Artefakte nach bin\HW_v<n>.x\ legen, Changelog fortschreiben.
+# release.ps1 - Varianten bauen, die Artefakte nach bin\<FPGA-Board>\ legen, Changelog fortschreiben.
 #
 #   .\release.ps1 -Note "kurz, was diese Version aendert"
 #   .\release.ps1 -Note "..." -Variants hw2_cyclone_10
@@ -6,9 +6,15 @@
 #
 # Die Versionsziffern kommen aus rtl\common\version_pkg.vhd (SW_SUB1/SW_SUB2) und
 # variants\<n>\variant.psd1 (BoardId, ReleasePrefix). Ein Release aendert genau EINE Ziffer
-# in version_pkg.vhd, alle acht Boards folgen. Dateinamen wie bisher:
-#   HW 1.x  bin\HW_v1.x\BallyFA_<BoardId><Sub1><Sub2>.pof|.jic     z.B. BallyFA_323.jic
-#   HW 2.x  bin\HW_v2.x\BallyFA_2_<BoardId><Sub1><Sub2>.pof|.jic   z.B. BallyFA_2_323.jic
+# in version_pkg.vhd, alle acht Boards folgen.
+#
+# bin\ ist wie bei WillFA7 nach FPGA-Board geordnet (BinFolder in variant.psd1), die
+# Basisplatine steht im Dateinamen:
+#   bin\Cyclone_II\                  BallyFA_1xx.pof    BallyFA_2_1xx.pof
+#   bin\Cyclone_IV\FPGA_board_v3.x\  BallyFA_2xx.jic    BallyFA_2_2xx.jic   (EP4CE6F17)
+#   bin\Cyclone_IV\FPGA_board_v4.x\  BallyFA_3xx.jic    BallyFA_2_3xx.jic   (EP4CE6E22)
+#   bin\cyclone_10\                  BallyFA_4xx.jic    BallyFA_2_4xx.jic
+#   (HW 1.x: BallyFA_<BoardId><Sub1><Sub2>, HW 2.x: BallyFA_2_<BoardId><Sub1><Sub2>)
 #
 # -RomImage <SD-Kartenimage>: fuer die Varianten mit Flash-Fallback zusaetzlich
 # <Name>_roms.jic daneben (Bitstream + Spiel-ROMs, siehe build.ps1). Diese Dateien sind
@@ -88,7 +94,7 @@ $log   = Join-Path $BinRoot 'Changelog.txt'
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
 $lines = @('', "-- Version x.$sub1$sub2 (alle Boards) $Note", "   $stamp")
 foreach ($d in ($done | Sort-Object Variant)) {
-    $lines += "   {0,-18} {1,-8} {2,-28} sha256:{3}" -f $d.Variant, $d.Version, $d.File, $d.Sha
+    $lines += "   {0,-18} {1,-8} {2,-44} sha256:{3}" -f $d.Variant, $d.Version, $d.File, $d.Sha
 }
 Add-Content -Path $log -Value $lines -Encoding UTF8
 
