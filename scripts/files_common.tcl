@@ -2,8 +2,8 @@
 # Wird von scripts\gen_qsf.ps1 in variants\<n>\Bally.qsf eingesetzt.
 #
 # ALLE Pfade sind relativ zum QUARTUS-PROJEKTVERZEICHNIS, und das ist variants\<n>\ -
-# daher ../../. Derselbe Bezug gilt fuer init_file in rtl/<familie>/U2andU6.vhd
-# (../../rom/elektra.hex). Ausnahme: die .qip benutzen $::quartus(qip_path) und sind
+# daher ../../. Derselbe Bezug galt fuer init_file in Megafunction-Wrappern (U2andU6 hat seit
+# 10.2026 keine Vorbelegung mehr, init_file = UNUSED). Ausnahme: die .qip benutzen $::quartus(qip_path) und sind
 # ortsunabhaengig - die nicht anfassen.
 #
 # Kein SEARCH_PATH. Jede Datei steht genau einmal explizit in einer Liste; nur so kann
@@ -46,10 +46,9 @@ set_global_assignment -name VHDL_FILE ../../rtl/common/uart_rx.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/lisy_api.vhd
 set_global_assignment -name VHDL_FILE ../../top/Bally_core.vhd
 
-# Initialisierungsdaten fuer U2andU6. Vorher stand im Wrapper "../ROMs/elektra.hex" - das
-# zeigte ins Leere und wurde nur ueber Quartus' "Auto-Found" im Projektordner gefunden.
-# Der Inhalt ist ohnehin nur Vorbelegung: beim Start laedt SD_Card das Spiel-ROM.
-set_global_assignment -name HEX_FILE ../../rom/elektra.hex
+# U2andU6 hat keine Vorbelegung (init_file = UNUSED): beim Start laedt SD_Card bzw.
+# Flash_ROM das Spiel-ROM. Frueher stand hier rom/elektra.hex - ein Spiel-ROM, das nicht
+# im oeffentlichen Repo liegen soll (entfernt 10.2026).
 
 # Eine gemeinsame .sdc: sie nennt nur clk_50 und Bally_core:core|cpu_clk_gen:clock_gen|clk_out,
 # und beide Huellen instanziieren den Kern unter demselben Namen "core".

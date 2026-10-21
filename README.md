@@ -67,7 +67,6 @@ rtl/common/            21 gemeinsame Module (inkl. Flash_ROM) + version_pkg.vhd 
 rtl/cyclone_ii/        Megafunctions U2andU6 M6810 SM5101 R5101 (Cyclone II, Quartus 13.0)
 rtl/cyclone_iv/        dieselben vier für Cyclone IV E
 rtl/cyclone_10/        dieselben vier für Cyclone 10 LP
-rom/elektra.hex        Vorbelegung von U2andU6 (zur Laufzeit von der SD-Karte überschrieben)
 variants/<name>/       variant.psd1, device.tcl, pins.tcl, variant_pkg.vhd,
                        Bally.qpf, [Bally.cof, bally_roms.cof]  +  Bally.qsf (GENERIERT)
 scripts/               gen_qsf.ps1, check.ps1, build.ps1, release.ps1, make_flash_hex.ps1, baseline.csv

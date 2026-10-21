@@ -5,7 +5,7 @@
 #   variants\<n>\device.tcl        FAMILY / DEVICE / LAST_QUARTUS_VERSION / EDA
 #   variants\<n>\variant.psd1      TopEntity, RtlFamily, Options, VirtualPins
 #   variants\<n>\pins.tcl          die Pinlagen dieses Boards
-#   scripts\files_common.tcl       gemeinsame Quellen inkl. Kern, .sdc und elektra.hex
+#   scripts\files_common.tcl       gemeinsame Quellen inkl. Kern und .sdc
 #   scripts\files_<RtlFamily>.tcl  die Megafunctions dieser FPGA-Familie
 #   scripts\files_<Option>.tcl     je Eintrag in Options - hier die Basisplatine (hw1 / hw2)
 #

@@ -188,7 +188,6 @@ set_global_assignment -name VHDL_FILE ../../rtl/common/uart_tx.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/uart_rx.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/lisy_api.vhd
 set_global_assignment -name VHDL_FILE ../../top/Bally_core.vhd
-set_global_assignment -name HEX_FILE ../../rom/elektra.hex
 set_global_assignment -name SDC_FILE ../../rtl/common/Bally.sdc
 set_global_assignment -name QIP_FILE ../../rtl/cyclone_iv/U2andU6.qip
 set_global_assignment -name QIP_FILE ../../rtl/cyclone_iv/M6810.qip
