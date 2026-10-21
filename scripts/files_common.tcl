@@ -31,6 +31,9 @@ set_global_assignment -name VHDL_FILE ../../rtl/common/coin_validator.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/EEprom.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/one_pulse_only.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/SD_Card.vhd
+# Flash_ROM steht in jeder Liste, auch auf Cyclone II (HAS_FLASH_ROM = false): Quartus loest
+# Entity-Referenzen auch im nicht genommenen generate-Zweig auf (Error 10481).
+set_global_assignment -name VHDL_FILE ../../rtl/common/Flash_ROM.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/zc_indicator.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/SPI_Master.vhd
 set_global_assignment -name VHDL_FILE ../../rtl/common/slow_to_fast_clock_bus.vhd

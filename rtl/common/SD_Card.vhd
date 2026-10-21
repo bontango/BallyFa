@@ -10,6 +10,10 @@
 -- v03 extended CMD to 14 bytes, added second R1 position (needed for some cards), added error state
 -- v04 added error blinkcode
 -- v041 added variable for sectorcount as large sectornumbers were calculated wrong
+-- v05 new output o_no_card: '1' once the card init has ended in error (CMD0/CMD8/ACMD41),
+--     i.e. no usable card. Starts the configuration flash as second ROM source
+--     (HAS_FLASH_ROM, Flash_ROM.vhd). BallyFA has no data errors after a good init,
+--     so every error of this loader counts as 'no card'. 10.2026
 -- TODO
 -- make a common GottFA / BallyFA version
 -- differences BallyFA | GottFA 
@@ -43,7 +47,8 @@ use IEEE.numeric_std.all;
 		-- start CPU
 		cpu_reset_h : out STD_LOGIC;
 		-- feedback
-		SDcard_error : out STD_LOGIC
+		SDcard_error : out STD_LOGIC;
+		o_no_card : out STD_LOGIC
 		);
     end SD_Card;
 	 
@@ -88,7 +93,10 @@ use IEEE.numeric_std.all;
 		signal counter  : integer range 0 to 100000000;   -- delay, for 10ms use 500.000
 	begin		
 		
-		-- signals for the two SPI Master
+		-- the read has ended in error and stays there (error blinks, then stop)
+	o_no_card <= '1' when state_A = error or state_A = stop else '0';
+
+	-- signals for the two SPI Master
 	o_SPI_MOSI <=	
 	MOSI_A when active_master = "01" else
 	MOSI_R when active_master = "10" else

@@ -13,5 +13,5 @@ package variant_pkg is
 	constant BOARD_ID : std_logic_vector(3 downto 0) := x"2";
 
 	-- Game ROMs from the configuration flash when no SD card answers (rtl/common/Flash_ROM.vhd).
-	constant HAS_FLASH_ROM : boolean := false;
+	constant HAS_FLASH_ROM : boolean := true;
 end package variant_pkg;

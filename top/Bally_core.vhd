@@ -268,6 +268,30 @@ signal data_sd_card	:  std_logic_vector(7 downto 0);
 signal wr_rom			:  std_logic;
 signal SDcard_error		:  std_logic;
 
+-- the two ROM sources: SD card (sd_), configuration flash (fl_, HAS_FLASH_ROM only).
+-- The signals above carry whichever is in use (use_flash), see GEN_FLASH.
+signal game_slot			:  std_logic_vector(7 downto 0); -- selected game, DIPs S1 inverted
+signal sd_address			:  std_logic_vector(12 downto 0);
+signal sd_data				:  std_logic_vector(7 downto 0);
+signal sd_wr_rom			:  std_logic;
+signal sd_reset_h			:  std_logic;
+signal sd_error			:  std_logic;
+signal sd_no_card			:  std_logic;
+signal fl_address			:  std_logic_vector(12 downto 0);
+signal fl_data				:  std_logic_vector(7 downto 0);
+signal fl_wr_rom			:  std_logic;
+signal fl_reset_h			:  std_logic;
+signal fl_error			:  std_logic;
+signal fl_empty			:  std_logic; -- flash slot empty or beyond the flash, error 8
+signal use_flash			:  std_logic;
+signal slot_dig0			:  std_logic_vector(3 downto 0);
+signal slot_dig1			:  std_logic_vector(3 downto 0);
+signal slot_dig2			:  std_logic_vector(3 downto 0);
+signal d4_lead				:  std_logic_vector(3 downto 0); -- display 4 during boot
+signal d4_2					:  std_logic_vector(3 downto 0);
+signal d4_1					:  std_logic_vector(3 downto 0);
+signal d4_0					:  std_logic_vector(3 downto 0);
+
 -- EEprom we use 128Bytes
 signal address_eeprom	:  std_logic_vector(6 downto 0);
 signal data_eeprom	:  std_logic_vector(7 downto 0);
@@ -337,7 +361,73 @@ GEN_NO_FLASH: if not HAS_FLASH_ROM generate
 	FLASH_DCLK <= '0';
 	FLASH_NCS  <= '1';
 	FLASH_ASDO <= '0';
+	-- the SD card is the only source
+	address_sd_card <= sd_address;
+	data_sd_card    <= sd_data;
+	wr_rom          <= sd_wr_rom;
+	reset_h         <= sd_reset_h;
+	SDcard_error    <= sd_error;
+	-- display 4 stays blank (use_flash is constant '0' here)
+	d4_lead   <= x"F";
+	slot_dig0 <= x"F";
+	slot_dig1 <= x"F";
+	slot_dig2 <= x"F";
 end generate;
+
+----------------------
+-- configuration flash as second source of the game ROMs (HAS_FLASH_ROM, x.30)
+----------------------
+-- No card answered (SD_Card ended in error, o_no_card) -> read the same 8 KByte slot
+-- from the configuration flash and take over ROM write port, CPU reset and SD LED.
+-- Layout and the empty-slot check (error 8): rtl/common/Flash_ROM.vhd.
+-- Outside the generates, so that sd_no_card is read on every board. Constant '0'
+-- without HAS_FLASH_ROM.
+use_flash <= sd_no_card when HAS_FLASH_ROM else '0';
+
+-- selected game: DIPs S1 inverted (DIP ON = '0'), as SD_Card always took it
+game_slot <= not S1_DIPS;
+
+GEN_FLASH: if HAS_FLASH_ROM generate
+	FLASH_ROM: entity work.Flash_ROM
+	port map(
+		i_Clk => clk_50,
+		i_Rst_L => sd_no_card,
+		o_Flash_Clk  => FLASH_DCLK,
+		o_Flash_CS_n => FLASH_NCS,
+		o_Flash_MOSI => FLASH_ASDO,
+		i_Flash_MISO => FLASH_DATA0,
+		selection => game_slot,
+		address_rom => fl_address,
+		data_rom => fl_data,
+		wr_rom => fl_wr_rom,
+		cpu_reset_h => fl_reset_h,
+		Flash_error => fl_error,
+		flash_empty => fl_empty
+	);
+
+	address_sd_card <= fl_address when use_flash = '1' else sd_address;
+	data_sd_card    <= fl_data    when use_flash = '1' else sd_data;
+	wr_rom          <= fl_wr_rom  when use_flash = '1' else sd_wr_rom;
+	reset_h         <= fl_reset_h when use_flash = '1' else sd_reset_h;
+	SDcard_error    <= fl_error   when use_flash = '1' else sd_error;
+
+	-- display 4 during boot: the slot number when the ROMs came from the flash - that is
+	-- how you tell a flash boot -, with an 8 in front for an empty slot (error 8)
+	CONVS: entity work.byte_to_decimal
+	port map(
+		clk_in	=> clk_50,
+		mybyte	=> game_slot,
+		dig0 => slot_dig0,
+		dig1 => slot_dig1,
+		dig2 => slot_dig2
+		);
+	d4_lead <= x"8" when fl_empty = '1' else x"F";
+end generate;
+
+-- display 4 digits: outside the generates, so that use_flash is read on every board
+d4_2 <= slot_dig2 when use_flash = '1' else x"F";
+d4_1 <= slot_dig1 when use_flash = '1' else x"F";
+d4_0 <= slot_dig0 when use_flash = '1' else x"F";
 ----------------------
 -- boot message
 ----------------------
@@ -355,7 +445,7 @@ port map(
 	display1	=> ( x"F",x"F",hw_digit(HW_GEN),x"F",BOARD_ID,SW_SUB1,SW_SUB2 ),
 	display2	=> ( x"F",x"F",x"F",x"F", dig2, dig1, dig0),
 	display3	=> ( x"F",x"0",x"5",x"0",x"9",x"6",x"3" ),
-	display4	=> ( x"F",x"F",x"F",x"F",x"F",x"F",x"F" ),
+	display4	=> ( d4_lead,x"F",x"F",x"F",d4_2,d4_1,d4_0 ),	-- flash boot, see GEN_FLASH
 	status_d	=> ( x"F",x"F",x"F",x"F",x"F",x"F",bally_led_count )
 	);
 
@@ -405,16 +495,17 @@ port map(
    o_SPI_MOSI => SD_MOSI,
    o_SPI_CS_n => SD_CS,	
 	-- selection
-	selection => not S1_DIPS,
+	selection => game_slot,
 	-- data
-	address_sd_card => address_sd_card,
-	data_sd_card => data_sd_card,
-	wr_rom => wr_rom,
+	address_sd_card => sd_address,
+	data_sd_card => sd_data,
+	wr_rom => sd_wr_rom,
 	-- control CPU
-	cpu_reset_h => reset_h,
+	cpu_reset_h => sd_reset_h,
 	-- feedback
-	SDcard_error => SDcard_error
-	);	
+	SDcard_error => sd_error,
+	o_no_card => sd_no_card
+	);
 
 ----------------------
 -- 5101 ram (dual port)
