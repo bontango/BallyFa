@@ -27,7 +27,7 @@ diesem Baum.
 
 Antwortet beim Start keine SD-Karte, lädt BallyFA das gewählte Spiel aus dem
 Konfigurationsflash (EPCS16) statt von der Karte. Die Spielwahl erfolgt wie bisher über S1.
-Im Flash liegen die Karten-Slots 0..191 byte-gleich ab Adresse 080000h, je 8 KByte.
+Im Flash liegen die Spiele der Karte byte-gleich ab Adresse 080000h, je 8 KByte. Platz ist für 192 Spiele; das Kartenimage 111 hat 142.
 
 - Beim Flash-Boot zeigt Display 4 während der Bootmeldung die Slotnummer.
 - Ist der Slot leer oder liegt er über 191, steht vorne eine 8, die SD-LED blinkt 8-mal und

@@ -12,13 +12,17 @@
       flash   080000h + n * 2000h    game n, 8 KByte (Flash_ROM.vhd)
 
   The EPCS16 of the Cyclone IV / Cyclone 10 boards holds slots 0..191 behind the
-  bitstream reserve (080000h..1FFFFFh). The card has 256 slots; 192..255 cannot go into
-  the flash, Flash_ROM.vhd reports error 8 for them. Cyclone II has no flash fallback.
+  bitstream reserve (080000h..1FFFFFh); Flash_ROM.vhd reports error 8 above. Cyclone II
+  has no flash fallback.
 
-  Slots that are completely FF or 00 are left out, so that part of the flash stays
-  erased - Flash_ROM.vhd then reports error 8 for that game instead of running it.
-  The same for a slot whose 6800 reset vector (offset 1FFEh/1FFFh) reads FFFF; it is
-  written, but flagged.
+  Where the games end: _make_SD.bat writes the games to slot 0..n-1 and a text sector
+  "this is SD image v<nnn>" right behind them (image 111: 142 games, the marker in slot
+  142). Everything behind the marker is whatever the card held before - not games. The
+  script stops at the marker (or after -Games slots), so those slots stay erased in the
+  flash and Flash_ROM.vhd reports error 8 for them instead of running old card data.
+
+  Slots that are completely FF or 00 are left out as well. A slot whose 6800 reset vector
+  (offset 1FFEh/1FFFh) reads FFFF is written, but flagged.
 
   THE RESULT CONTAINS COPYRIGHTED GAME ROMS. Write it below output_files\ (ignored by
   git) and never into the released files. variants\<name>\bally_roms.cof expects it at
@@ -33,9 +37,10 @@
 .PARAMETER Out
   The .hex file to write.
 
-.PARAMETER Slots
-  How many slots at most. Default 192, what fits into the EPCS16 (Slot_Count in
-  Flash_ROM.vhd).
+.PARAMETER Games
+  How many games the card holds. Default: up to the "this is SD image" marker. Needed
+  only for -Image without a marker; at most 192, what fits into the EPCS16 (Slot_Count
+  in Flash_ROM.vhd).
 
 .EXAMPLE
   .\make_flash_hex.ps1 -Image "..\..\roms\BallyFA_SD_111.img" -Out ..\variants\hw2_cyclone_10\output_files\bally_roms.hex
@@ -44,7 +49,7 @@ param(
     [string]$Image,
     [string[]]$SlotFiles,
     [Parameter(Mandatory = $true)][string]$Out,
-    [int]$Slots = 192
+    [int]$Games = 0
 )
 
 $ErrorActionPreference = 'Stop'
@@ -57,7 +62,10 @@ $FlashBase   = 0x080000
 $FlashEnd    = 0x200000   # EPCS16
 $VecOffset   = 0x1FFE     # 6800 reset vector FFFEh in the 8 KByte image
 
-if ($FlashBase + $Slots * $SlotBytes -gt $FlashEnd) { throw "$Slots slots do not fit into the EPCS16." }
+$MaxSlots    = ($FlashEnd - $FlashBase) / $SlotBytes   # 192
+$Marker      = [System.Text.Encoding]::ASCII.GetBytes('this is SD image')   # _make_SD.bat, behind the last game
+
+if ($Games -gt $MaxSlots) { throw "$Games games do not fit into the EPCS16 (at most $MaxSlots)." }
 if ((-not $Image) -and (-not $SlotFiles)) { throw 'Give -Image or -SlotFiles.' }
 if ($Image -and $SlotFiles) { throw 'Give -Image or -SlotFiles, not both.' }
 
@@ -97,15 +105,29 @@ public static class BallyFAFlash {
 $slotData = New-Object System.Collections.Generic.List[byte[]]
 if ($Image) {
     $img = [System.IO.File]::ReadAllBytes((Resolve-Path $Image))
-    for ($n = 0; $n -lt $Slots; $n++) {
+    $found = $false
+    for ($n = 0; $n -lt 256; $n++) {
+        if ($Games -gt 0 -and $n -ge $Games) { break }
         $off = ($FirstSector * 512) + ($n * $SlotBytes)
         if ($off + $SlotBytes -gt $img.Length) { break }
+        # the marker sector ends the games - behind it is old card data
+        $isMarker = $true
+        for ($i = 0; $i -lt $Marker.Length; $i++) { if ($img[$off + $i] -ne $Marker[$i]) { $isMarker = $false; break } }
+        if ($isMarker) {
+            $text = [System.Text.Encoding]::ASCII.GetString($img, $off, 32).Split("`r")[0]
+            Write-Host ('slot {0,3}: "{1}" - end of the games' -f $n, $text)
+            $found = $true
+            break
+        }
+        if ($n -ge $MaxSlots) { throw "The image holds more than $MaxSlots games - they do not fit into the EPCS16." }
         $s = New-Object byte[] $SlotBytes
         [Array]::Copy($img, $off, $s, 0, $SlotBytes)
         $slotData.Add($s)
     }
+    if (-not $found -and $Games -eq 0) { throw 'No "this is SD image" marker found - give the number of games with -Games.' }
 } else {
-    for ($n = 0; $n -lt $SlotFiles.Count -and $n -lt $Slots; $n++) {
+    if ($SlotFiles.Count -gt $MaxSlots) { throw "$($SlotFiles.Count) slot files do not fit into the EPCS16 (at most $MaxSlots)." }
+    for ($n = 0; $n -lt $SlotFiles.Count; $n++) {
         $s = [System.IO.File]::ReadAllBytes((Resolve-Path $SlotFiles[$n]))
         if ($s.Length -ne $SlotBytes) { throw "$($SlotFiles[$n]) is $($s.Length) bytes, a slot is $SlotBytes." }
         $slotData.Add($s)
@@ -139,5 +161,5 @@ else { $outFull = [System.IO.Path]::GetFullPath((Join-Path (Get-Location) $Out))
 $dir = Split-Path $outFull
 if (-not (Test-Path $dir)) { $null = New-Item -ItemType Directory -Path $dir }
 [System.IO.File]::WriteAllText($outFull, $sb.ToString(), (New-Object System.Text.ASCIIEncoding))
-Write-Host ('{0} slots written to {1}' -f $written, $outFull)
+Write-Host ('{0} games written to {1} (flash 080000h..{2:X6})' -f $written, $outFull, ($FlashBase + $slotData.Count * $SlotBytes - 1))
 if ($warn -gt 0) { Write-Host ('{0} slot(s) with reset vector FFFF, see above' -f $warn) -ForegroundColor Yellow }
