@@ -52,12 +52,11 @@ function Get-QuartusBin([string]$Family) {
 # Toleranz statt Gleichheit - plus ein absoluter Boden.
 #
 # Der Boden ist PROJEKTSPEZIFISCH. Verglichen wird der schlechteste Slack ueber alle
-# Analysearten, und das ist bei BallyFA ein HOLD-Wert auf clk_out (der durch 100 geteilte
-# CPU-Takt aus cpu_clk_gen, ein Ripple-Takt): Cyclone IV/10 um +0,1 ns, Cyclone II
-# NEGATIV (-1,7 / -1,8 ns, Slow Model Hold 'clk_out') - und das schon im alten Stand vor
-# dem Umbau, siehe VARIANTEN.md. Der Boden meldet deshalb nur, wenn eine Variante NEU unter
-# ihn faellt; eine Variante, deren Baseline schon darunter liegt, wird nur ueber die
-# Toleranz gegen ihre Baseline geprueft.
+# Analysearten, und das ist bei BallyFA ein Fast-Model-HOLD-Wert um +0,13..+0,22 ns -
+# der Normalzustand einer Min-Delay-Pruefung, nicht knapp. (Bis zur Korrektur der Bally.sdc
+# am 21.10.2026 lag Cyclone II hier bei -1,7 / -1,8 ns auf clk_out, siehe VARIANTEN.md.)
+# Der Boden meldet nur, wenn eine Variante NEU unter ihn faellt; eine Variante, deren
+# Baseline schon darunter liegt, wird nur ueber die Toleranz gegen ihre Baseline geprueft.
 $SlackTolerance = 1.5
 $SlackFloor     = 0.05
 
