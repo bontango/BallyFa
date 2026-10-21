@@ -1,0 +1,24 @@
+# Zeilenenden.
+#
+# Der Baum ist einheitlich CRLF - Quartus- und Windows-Konvention der alten Projektordner.
+# "* -text" reicht nicht: das haelt nur git davon ab, etwas zu aendern, nicht die Werkzeuge.
+# Auf Windows kippen Editoren und Skripte Dateien beim Speichern (sed -i aus der Git-Bash
+# macht CRLF zu LF), und dann landet jede Datei als Ganzdatei-Diff im Commit.
+#
+# Deshalb "text=auto": git normalisiert BEIM EINCHECKEN auf LF, checkt aber mit der
+# Plattformkonvention aus - im Arbeitsverzeichnis bleibt CRLF, die Diffs bleiben sauber.
+# (Wie in FPGA Recel\FPGA_source.)
+* text=auto
+
+*.sof binary
+*.jic binary
+*.pof binary
+*.rbf binary
+*.rpd binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.xlsx binary
+*.zip binary
+*.exe binary

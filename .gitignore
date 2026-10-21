@@ -1,0 +1,49 @@
+# Quartus-Buildartefakte. Sie liegen jetzt INNERHALB von variants/<name>/, ein Satz
+# je Variante, weil das dort das Quartus-Projektverzeichnis ist.
+db/
+incremental_db/
+output_files/
+atom_netlists/
+simulation/
+greybox_tmp/
+
+# Backups und Workspaces
+*.bak
+*.qws
+*.orig
+*.rej
+* - Kopie.*
+
+# Reports und Zwischenstaende
+*.out.sdc
+*.rpt
+*.summary
+*.smsg
+*.pin
+*.jdi
+*.sld
+*.done
+*.qdf
+*.sopcinfo
+*.map
+*.cdf
+
+# Quartus-Interna
+c5_pin_model_dump.txt
+PLLJ_PLLSPE_INFO.txt
+*.log
+
+# Interne Arbeitsnotizen - oeffentlich ist nur docs/
+CLAUDE.md
+PLAN_Zielstruktur.md
+VARIANTEN.md
+
+# Windows
+Thumbs.db
+desktop.ini
+~$*
+
+# HINWEIS: die .cmp und .ppf der Megafunctions sind ABSICHTLICH getrackt - die .qip
+# listen sie als MISC_FILE, ohne sie fehlt der IP-Block beim naechsten Klon.
+# HINWEIS: rom/elektra.hex ist eine QUELLDATEI, kein Buildoutput.
+# HINWEIS: bin/HW_v*.x/*.pof|*.jic sind die ausgelieferten Releases und gehoeren ins Repo.

@@ -1,0 +1,185 @@
+# ==========================================================================
+# GENERATED FILE - do not edit.
+#
+# Variante : hw1_cyclone_ii
+# Board    : BallyFA HW 1.x mit dem Cyclone II Board (EP2C5T144C8)
+#
+# Erzeugt von scripts\gen_qsf.ps1 aus
+#   scripts\common_header.tcl
+#   variants\hw1_cyclone_ii\device.tcl
+#   variants\hw1_cyclone_ii\variant.psd1   (VIRTUAL_PIN)
+#   variants\hw1_cyclone_ii\pins.tcl
+#   scripts\files_common.tcl
+#   scripts\files_cyclone_ii.tcl
+#   scripts\files_hw1.tcl
+#
+# Aenderungen gehoeren in eines dieser Fragmente, nicht hierher.
+# ==========================================================================
+
+# --- board ---
+set_global_assignment -name TOP_LEVEL_ENTITY BallyFA_HW1
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C5T144C8
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+
+# --- shared globals ---
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:31:09  APRIL 07, 2020"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED WITH WEAK PULL-UP"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS OFF
+set_global_assignment -name AUTO_RAM_RECOGNITION OFF
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to reset_l
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S2_DIPS[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S2_DIPS[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S2_DIPS[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S2_DIPS[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S2_DIPS[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S2_DIPS[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S1_DIPS[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_PB[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to CV_CH[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to CV_CH[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to CV_CH[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to CV_CH[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to CV_CH[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to CV_CH[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to S33
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U11_CB1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to U10_CA1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ZERO_CROSS
+
+# --- pins ---
+set_location_assignment PIN_3 -to LED_0
+set_location_assignment PIN_7 -to LED_1
+set_location_assignment PIN_9 -to LED_2
+set_location_assignment PIN_17 -to clk_50
+set_location_assignment PIN_63 -to U10_CA1
+set_location_assignment PIN_48 -to U10_PA[7]
+set_location_assignment PIN_51 -to U10_PA[6]
+set_location_assignment PIN_52 -to U10_PA[5]
+set_location_assignment PIN_45 -to U10_PA[4]
+set_location_assignment PIN_44 -to U10_PA[3]
+set_location_assignment PIN_43 -to U10_PA[2]
+set_location_assignment PIN_42 -to U10_PA[1]
+set_location_assignment PIN_47 -to U10_PA[0]
+set_location_assignment PIN_70 -to U10_PB[7]
+set_location_assignment PIN_71 -to U10_PB[6]
+set_location_assignment PIN_72 -to U10_PB[5]
+set_location_assignment PIN_65 -to U10_PB[4]
+set_location_assignment PIN_67 -to U10_PB[3]
+set_location_assignment PIN_69 -to U10_PB[2]
+set_location_assignment PIN_59 -to U10_PB[1]
+set_location_assignment PIN_60 -to U10_PB[0]
+set_location_assignment PIN_119 -to U10_CB2
+set_location_assignment PIN_143 -to U11_CA2
+set_location_assignment PIN_75 -to U11_CB1
+set_location_assignment PIN_118 -to U11_CB2
+set_location_assignment PIN_134 -to U11_PA[7]
+set_location_assignment PIN_135 -to U11_PA[6]
+set_location_assignment PIN_136 -to U11_PA[5]
+set_location_assignment PIN_137 -to U11_PA[4]
+set_location_assignment PIN_139 -to U11_PA[3]
+set_location_assignment PIN_141 -to U11_PA[2]
+set_location_assignment PIN_142 -to U11_PA[1]
+set_location_assignment PIN_115 -to U11_PB[7]
+set_location_assignment PIN_114 -to U11_PB[6]
+set_location_assignment PIN_113 -to U11_PB[5]
+set_location_assignment PIN_112 -to U11_PB[4]
+set_location_assignment PIN_132 -to U11_PB[3]
+set_location_assignment PIN_133 -to U11_PB[2]
+set_location_assignment PIN_103 -to U11_PB[1]
+set_location_assignment PIN_104 -to U11_PB[0]
+set_location_assignment PIN_120 -to DISP_BLANKING
+set_location_assignment PIN_121 -to DISP_LA_STR[1]
+set_location_assignment PIN_122 -to DISP_LA_STR[2]
+set_location_assignment PIN_125 -to DISP_LA_STR[3]
+set_location_assignment PIN_126 -to DISP_LA_STR[4]
+set_location_assignment PIN_129 -to DISP_LA_STR[5]
+set_location_assignment PIN_28 -to D_EEPROM
+set_location_assignment PIN_31 -to Q_EEPROM
+set_location_assignment PIN_32 -to S_EEPROM
+set_location_assignment PIN_24 -to C_EEPROM
+set_location_assignment PIN_144 -to reset_l
+set_location_assignment PIN_64 -to S33
+set_location_assignment PIN_87 -to SD_CLK
+set_location_assignment PIN_76 -to SD_CS
+set_location_assignment PIN_86 -to SD_MISO
+set_location_assignment PIN_79 -to SD_MOSI
+set_location_assignment PIN_100 -to CV_CH[1]
+set_location_assignment PIN_93 -to CV_CH[2]
+set_location_assignment PIN_99 -to CV_CH[3]
+set_location_assignment PIN_97 -to CV_CH[4]
+set_location_assignment PIN_96 -to CV_CH[5]
+set_location_assignment PIN_94 -to CV_CH[6]
+set_location_assignment PIN_101 -to CV_COIN_LOCK
+set_location_assignment PIN_40 -to LED_Bally
+set_location_assignment PIN_8 -to LED_ON
+set_location_assignment PIN_92 -to LED_SD_ERR
+set_location_assignment PIN_41 -to LED_ZC
+set_location_assignment PIN_4 -to S1_DIPS[7]
+set_location_assignment PIN_18 -to S1_DIPS[6]
+set_location_assignment PIN_22 -to S1_DIPS[5]
+set_location_assignment PIN_21 -to S1_DIPS[4]
+set_location_assignment PIN_88 -to S1_DIPS[3]
+set_location_assignment PIN_89 -to S1_DIPS[2]
+set_location_assignment PIN_90 -to S1_DIPS[1]
+set_location_assignment PIN_91 -to S1_DIPS[0]
+set_location_assignment PIN_55 -to S2_DIPS[1]
+set_location_assignment PIN_53 -to S2_DIPS[2]
+set_location_assignment PIN_57 -to S2_DIPS[3]
+set_location_assignment PIN_58 -to S2_DIPS[4]
+set_location_assignment PIN_30 -to S2_DIPS[5]
+set_location_assignment PIN_25 -to S2_DIPS[6]
+set_location_assignment PIN_74 -to ZERO_CROSS
+
+# --- sources ---
+set_global_assignment -name VHDL_FILE variant_pkg.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/version_pkg.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/signal_delay.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/boot_delay.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/clk_400Hz_gen.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/cpu_clk_gen.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/byte_to_decimal.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/boot_message.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/coin_validator.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/EEprom.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/one_pulse_only.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/SD_Card.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/zc_indicator.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/SPI_Master.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/slow_to_fast_clock_bus.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/slow_to_fast_clock.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/zero_cross_clk_gen.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/pia6821.vhd
+set_global_assignment -name VHDL_FILE ../../rtl/common/cpu68.vhd
+set_global_assignment -name VHDL_FILE ../../top/Bally_core.vhd
+set_global_assignment -name HEX_FILE ../../rom/elektra.hex
+set_global_assignment -name SDC_FILE ../../rtl/common/Bally.sdc
+set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/U2andU6.qip
+set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/M6810.qip
+set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/SM5101.qip
+set_global_assignment -name QIP_FILE ../../rtl/cyclone_ii/R5101.qip
+set_global_assignment -name VHDL_FILE ../../top/BallyFA_HW1.vhd

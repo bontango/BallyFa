@@ -1,0 +1,14 @@
+-- Version 1.11    -- dip4 delayed zero cross for LED anti flicker (not working)
+-- Version 1.12    -- new SD card routine to support more cards
+-- Version 1.13    -- clk tests reverted because of Ghosting
+-- Version 1.14    -- display clock shift adapted to 400 for comboboard interrupts (not working)
+-- Version 1.15    -- solved IRQ bug in pia6821, now display clock without shift and adpated speed
+-- Version 1.16    -- CB2 (Soundselect) set to high during boot ( XandO problem with init SB)
+-- Version 1.17    -- weak pull-up U10_PB,CV_CH,S33,U10_CA1,U11_CB1,Zero_cross because of 74LVC245A
+-- Version 1.18    -- LED_0 activation after boot & SD read. Needed for clean init of Cheap Squeak board. (used in BallFA HW v1.11 )
+-- Version 1.19    -- option dip4 activates delayed zero cross for LED anti flicker
+-- Version 1.20	   -- (and v2.20 for Cyclone_IV) sdcard.vhd corrected, save calculation of sectornumbers 
+-- Version 1.21	   -(2.21 & 3.21)- Zero cross indicator adjusted to prevent blinking Zero Cross LED with MPU-133
+-- Version 1.22	   -(2.22 & 3.22)- added second range (mirror) for cmos ram as Baby pacman checks this range during selftest (only two flashes without this range)
+-- Version 1.23	   -(2.23 & 3.23)- option DIP2 changed, eeprom v0.3 now when set each second the cmos content is saved to eeprom/fram ( caution: only ativate with fram )
+
