@@ -8,13 +8,14 @@
 # variants\<n>\variant.psd1 (BoardId, ReleasePrefix). Ein Release aendert genau EINE Ziffer
 # in version_pkg.vhd, alle acht Boards folgen.
 #
-# bin\ ist wie bei WillFA7 nach FPGA-Board geordnet (BinFolder in variant.psd1), die
-# Basisplatine steht im Dateinamen:
-#   bin\Cyclone_II\                  BallyFA_1xx.pof    BallyFA_2_1xx.pof
-#   bin\Cyclone_IV\FPGA_board_v3.x\  BallyFA_2xx.jic    BallyFA_2_2xx.jic   (EP4CE6F17)
-#   bin\Cyclone_IV\FPGA_board_v4.x\  BallyFA_3xx.jic    BallyFA_2_3xx.jic   (EP4CE6E22)
-#   bin\cyclone_10\                  BallyFA_4xx.jic    BallyFA_2_4xx.jic
-#   (HW 1.x: BallyFA_<BoardId><Sub1><Sub2>, HW 2.x: BallyFA_2_<BoardId><Sub1><Sub2>)
+# bin\ ist aufgebaut wie der Download-Server lisy.dev/swrep/BallyFA/software/ (BinFolder in
+# variant.psd1): erst die Basisplatine, dann das FPGA-Board.
+#   bin\hardware_v1.x\Cyclone_II\                  BallyFA_1xx.pof
+#   bin\hardware_v1.x\Cyclone_IV\FPGA_board_v3.x\  BallyFA_2xx.jic     (EP4CE6F17)
+#   bin\hardware_v1.x\Cyclone_IV\FPGA_board_v4.x\  BallyFA_3xx.jic     (EP4CE6E22)
+#   bin\hardware_v1.x\Cyclone_10\                  BallyFA_4xx.jic
+#   bin\hardware_v2.x\...                          dieselben Ordner, BallyFA_2_<B>xx
+#   bin\Changelog.txt
 #
 # -RomImage <SD-Kartenimage>: fuer die Varianten mit Flash-Fallback zusaetzlich
 # <Name>_roms.jic daneben (Bitstream + Spiel-ROMs, siehe build.ps1). Diese Dateien sind

@@ -6,7 +6,7 @@
     TopEntity   = 'BallyFA_HW1'   # Platinenhuelle top/BallyFA_HW1.vhd
     RtlFamily   = 'cyclone_10'      # welcher rtl\<familie>\-Ordner
     Options     = @('hw1')           # scripts\files_hw1.tcl
-    BinFolder   = 'cyclone_10'   # wie WillFA7: bin\ nach FPGA-Board, Basisplatine steht im Dateinamen
+    BinFolder   = 'hardware_v1.x\Cyclone_10'   # wie lisy.dev/swrep/BallyFA/software/
     ReleasePrefix   = 'BallyFA_'   # BallyFA_<BoardId><Sub1><Sub2>.jic
     ReleaseArtifact = 'jic'
     Dormant     = $false
