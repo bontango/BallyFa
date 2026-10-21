@@ -89,9 +89,9 @@ Die alten Ordner liegen weiterhin daneben, außerdem als ZIP unter
 `..\Archive\BallyFA_Varianten_vor_Sourcebaum_2026-10-21.zip`. **Von dort nicht mehr bauen
 und nicht committen.**
 
-`origin` ist <https://github.com/bontango/BallyFa>. Gearbeitet wird auf `main`. `master` wird
-per Fast-Forward auf denselben Stand gehalten, weil es auf GitHub der Default-Branch ist. Die
-drei älteren GitHub-Commits (flacher Stand bis Dezember 2021) sind über einen Merge mit der
+`origin` ist <https://github.com/bontango/BallyFa>. Es gibt nur den Branch `main`, er ist auch
+der Default-Branch auf GitHub. Der frühere Branch `master` wurde am 21.10.2026 gelöscht; sein
+Stand ist vollständig in `main` enthalten. Die drei älteren GitHub-Commits (flacher Stand bis Dezember 2021) sind über einen Merge mit der
 Strategie „ours“ als Vorfahren eingebunden. Ihre Dateien stehen nur noch in der Historie.
 
 ## Dritte
