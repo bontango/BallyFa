@@ -76,6 +76,10 @@
 --                   HW_GEN), so that the shells only declare ports: BallyFA_HW1/HW2 for
 --                   Cyclone IV/10 (with the configuration flash pins), BallyFA_HW1_cii/
 --                   HW2_cii for Cyclone II (without).
+-- Version x.30   -- game ROMs from the configuration flash when no SD card answers (HAS_FLASH_ROM,
+--                   rtl/common/Flash_ROM.vhd; not on Cyclone II): EPCS16 080000h + n*2000h,
+--                   slots 0..191, error 8 for an empty slot; display 4 shows the slot
+--                   number on a flash boot. SD_Card v05 (o_no_card).
 --
 -- Displayed version (boot message, display 1): [HW digit] BOARD_ID . SW_SUB1 SW_SUB2
 --   HW digit  blank for HW 1.x, "2" for HW 2.x (generic HW_GEN)

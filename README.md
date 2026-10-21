@@ -9,27 +9,48 @@ Hardware und Hintergrund: <https://lisy.dev/>
 
 Acht Varianten = vier FPGA-Boards × zwei Basisplatinen.
 
-| Variante | Basisplatine | FPGA-Board | Device | Quartus | Anzeige | Release |
-|---|---|---|---|---|---|---|
-| `hw1_cyclone_ii` | HW 1.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `1.23` | `bin/HW_v1.x/BallyFA_123.pof` |
-| `hw1_cyclone_iv` | HW 1.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2.23` | `bin/HW_v1.x/BallyFA_223.jic` |
-| `hw1_cyclone_iv_v4` | HW 1.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `3.23` | `bin/HW_v1.x/BallyFA_323.jic` |
-| `hw1_cyclone_10` | HW 1.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `4.23` | `bin/HW_v1.x/Bally_423.jic` |
-| `hw2_cyclone_ii` | HW 2.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `2 1.23` | `bin/HW_v2.x/BallyFA_2_123.pof` |
-| `hw2_cyclone_iv` | HW 2.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2 2.23` | `bin/HW_v2.x/BallyFA_2_223.jic` |
-| `hw2_cyclone_iv_v4` | HW 2.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `2 3.23` | `bin/HW_v2.x/BallyFA_2_323.jic` |
-| `hw2_cyclone_10` | HW 2.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `2 4.23` | `bin/HW_v2.x/BallyFA_2_423.jic` |
+| Variante | Basisplatine | FPGA-Board | Device | Quartus | Anzeige | ROMs aus dem Flash | Release |
+|---|---|---|---|---|---|---|---|
+| `hw1_cyclone_ii` | HW 1.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `1.30` | – | `bin/HW_v1.x/BallyFA_130.pof` |
+| `hw1_cyclone_iv` | HW 1.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2.30` | ja | `bin/HW_v1.x/BallyFA_230.jic` |
+| `hw1_cyclone_iv_v4` | HW 1.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `3.30` | ja | `bin/HW_v1.x/BallyFA_330.jic` |
+| `hw1_cyclone_10` | HW 1.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `4.30` | ja | `bin/HW_v1.x/BallyFA_430.jic` |
+| `hw2_cyclone_ii` | HW 2.x | Cyclone II | `EP2C5T144C8` | 13.0sp1 | `2 1.30` | – | `bin/HW_v2.x/BallyFA_2_130.pof` |
+| `hw2_cyclone_iv` | HW 2.x | Cyclone IV | `EP4CE6F17C8` | 22.1 | `2 2.30` | ja | `bin/HW_v2.x/BallyFA_2_230.jic` |
+| `hw2_cyclone_iv_v4` | HW 2.x | Cyclone IV v4.x | `EP4CE6E22C8` | 22.1 | `2 3.30` | ja | `bin/HW_v2.x/BallyFA_2_330.jic` |
+| `hw2_cyclone_10` | HW 2.x | Cyclone 10 | `10CL006YE144C8G` | 22.1 | `2 4.30` | ja | `bin/HW_v2.x/BallyFA_2_430.jic` |
 
-Die Releases in `bin/` stammen noch aus den alten Projektordnern. Das nächste Release aus
-diesem Baum heißt einheitlich `BallyFA_[2_]<Board><Sub1><Sub2>`.
+Die x.23-Releases in `bin/` stammen noch aus den alten Projektordnern, x.30 ist das erste aus
+diesem Baum.
 
-Alle Varianten teilen **einen** Kern (`top/Bally_core.vhd`) und einen Quellbaum. Was die
-Basisplatine ausmacht, steht in einer dünnen Platinenhülle:
+### Spiel-ROMs aus dem Konfigurationsflash (seit x.30, Cyclone IV/10)
 
-- `top/BallyFA_HW1.vhd`: LED_1/LED_2, Eingänge direkt
-- `top/BallyFA_HW2.vhd`: 4049-Inverter vor sechs Eingängen, LEDs auf anderen Pins,
-  USB über `lisy_api`
+Antwortet beim Start keine SD-Karte, lädt BallyFA das gewählte Spiel aus dem
+Konfigurationsflash (EPCS16) statt von der Karte. Die Spielwahl erfolgt wie bisher über S1.
+Im Flash liegen die Karten-Slots 0..191 byte-gleich ab Adresse 080000h, je 8 KByte.
 
+- Beim Flash-Boot zeigt Display 4 während der Bootmeldung die Slotnummer.
+- Ist der Slot leer oder liegt er über 191, steht vorne eine 8, die SD-LED blinkt 8-mal und
+  die CPU startet nicht.
+- Cyclone II hat keinen Flash-Fallback.
+
+**Die Releases in `bin/` enthalten keine Spiel-ROMs.** Die ROMs sind urheberrechtlich
+geschützt. Eine `.jic` mit ROMs baut man lokal aus einem SD-Kartenimage:
+
+```powershell
+powershell -File scripts\build.ps1 hw2_cyclone_10 -RomImage <Pfad>\BallyFA_SD_111.img
+#  -> variants\hw2_cyclone_10\output_files\bally_roms.jic
+```
+
+`*_roms.jic`/`*_roms.hex` sind gitignored.
+
+Alle Varianten teilen **einen** Kern (`top/Bally_core.vhd`) und einen Quellbaum. Der Kern
+enthält auch die Unterschiede der Basisplatinen (Generic `HW_GEN`: 4049-Inverter vor sechs
+Eingängen und USB über `lisy_api` bei HW 2.x). Die vier Platinenhüllen deklarieren nur die
+Ports der jeweiligen Platine:
+
+- `top/BallyFA_HW1.vhd` und `top/BallyFA_HW2.vhd`: Cyclone IV/10, mit den vier Flash-Pins
+- `top/BallyFA_HW1_cii.vhd` und `top/BallyFA_HW2_cii.vhd`: Cyclone II, ohne Flash-Pins
 Was das FPGA-Board ausmacht, sind das Device, die Pinlagen und die Ziffer `BOARD_ID`.
 
 Die angezeigte Version (Display 1 beim Booten) ist `[2] BOARD_ID . SW_SUB1 SW_SUB2`. Die
@@ -41,16 +62,15 @@ Boards folgen.
 
 ```
 top/Bally_core.vhd     der gemeinsame Kern (früher Bally.vhd)
-top/BallyFA_HW1.vhd    Platinenhülle HW 1.x  (TOP_LEVEL_ENTITY der hw1_*-Varianten)
-top/BallyFA_HW2.vhd    Platinenhülle HW 2.x  (TOP_LEVEL_ENTITY der hw2_*-Varianten)
-rtl/common/            20 gemeinsame Module + version_pkg.vhd + Bally.sdc
+top/BallyFA_HW*.vhd   Platinenhüllen (TOP_LEVEL_ENTITY), _cii = Cyclone II ohne Flash-Pins
+rtl/common/            21 gemeinsame Module (inkl. Flash_ROM) + version_pkg.vhd + Bally.sdc
 rtl/cyclone_ii/        Megafunctions U2andU6 M6810 SM5101 R5101 (Cyclone II, Quartus 13.0)
 rtl/cyclone_iv/        dieselben vier für Cyclone IV E
 rtl/cyclone_10/        dieselben vier für Cyclone 10 LP
 rom/elektra.hex        Vorbelegung von U2andU6 (zur Laufzeit von der SD-Karte überschrieben)
 variants/<name>/       variant.psd1, device.tcl, pins.tcl, variant_pkg.vhd,
-                       Bally.qpf, [Bally.cof]  +  Bally.qsf (GENERIERT)
-scripts/               gen_qsf.ps1, check.ps1, build.ps1, release.ps1, baseline.csv
+                       Bally.qpf, [Bally.cof, bally_roms.cof]  +  Bally.qsf (GENERIERT)
+scripts/               gen_qsf.ps1, check.ps1, build.ps1, release.ps1, make_flash_hex.ps1, baseline.csv
 bin/                   ausgelieferte .pof/.jic je Basisplatine + Changelog.txt
 docs/                  WORKFLOW.md
 ```
@@ -67,6 +87,7 @@ powershell -File scripts\check.ps1                   # alle 8 Varianten syntheti
 powershell -File scripts\check.ps1 -Fit              # + Fitter und Timing
 powershell -File scripts\build.ps1 hw2_cyclone_10    # voller Flow inkl. .jic
 powershell -File scripts\release.ps1 -Note "..."     # bauen, nach bin\ legen, Changelog
+                                                     # (-RomImage <img>: zusaetzlich lokale *_roms.jic)
 ```
 
 Toolchain:

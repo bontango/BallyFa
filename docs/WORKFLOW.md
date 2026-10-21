@@ -5,11 +5,12 @@
 | Ich will … | Datei |
 |---|---|
 | Logik ändern, die alle Boards betrifft | `top/Bally_core.vhd`, `rtl/common/*.vhd` |
-| etwas ändern, das nur Basisplatine HW 1.x bzw. HW 2.x betrifft | `top/BallyFA_HW1.vhd` / `top/BallyFA_HW2.vhd` |
-| ein neues Modul aufnehmen | Datei nach `rtl/common/`, Zeile in `scripts/files_common.tcl`. Nur bei einer Basisplatine: `scripts/files_hw<n>.tcl` |
+| etwas ändern, das nur Basisplatine HW 1.x bzw. HW 2.x betrifft | `top/Bally_core.vhd`, Blöcke `GEN_HW1` / `GEN_HW2` |
+| ein neues Modul aufnehmen | Datei nach `rtl/common/`, Zeile in `scripts/files_common.tcl` – auch wenn es nur in einem `generate` steckt (Error 10481) |
 | eine Version releasen | **eine** Ziffer in `rtl/common/version_pkg.vhd`, danach `scripts\release.ps1 -Note "..."` |
 | einen Pin verlegen | `variants/<n>/pins.tcl` |
-| einen Port zu einer Platine hinzufügen | Hülle (`top/BallyFA_HW<n>.vhd`), bei Bedarf Kern, **und** `pins.tcl` **jeder** Variante dieser Platine |
+| einen Port zu einer Platine hinzufügen | Kern **und** beide Hüllen dieser Platine (`BallyFA_HW<n>.vhd` und `BallyFA_HW<n>_cii.vhd`), dazu `pins.tcl` **jeder** Variante dieser Platine |
+| Spiel-ROMs lokal in den Flash | `scripts\build.ps1 <variante> -RomImage <SD-Image>` → `output_files\bally_roms.jic` (nur Cyclone IV/10, gitignored) |
 | ein Assignment für alle Boards (Pull-up, IO-Standard, …) | `scripts/common_header.tcl` |
 | Device oder Quartus-Version eines Boards | `variants/<n>/device.tcl` |
 | eine Megafunction neu generieren | in **jedem** `rtl/<familie>/` mit derselben Entity und Portliste; `init_file` relativ `../../rom/…` |
@@ -27,11 +28,15 @@
 - **Instanzname `core` nicht ändern.** `rtl/common/Bally.sdc` verweist auf
   `Bally_core:core|cpu_clk_gen:clock_gen|clk_out`. Ändert sich der Name, bricht die
   Constraint stumm.
-- **Eingänge im Kern haben HW-1.x-Polarität.** Die HW-2.x-Hülle invertiert die sechs
-  4049-Eingänge, bevor sie den Kern erreichen. Im Kern deshalb **kein** `not` vor `CV_CH`,
-  `ZERO_CROSS`, `S33`, `U10_PB`, `U10_CA1`, `U11_CB1` ergänzen.
+- **Die sechs 4049-Eingänge** (`CV_CH`, `ZERO_CROSS`, `S33`, `U10_PB`, `U10_CA1`, `U11_CB1`)
+  werden im Kern nur in `GEN_HW1`/`GEN_HW2` gelesen. Alles danach benutzt die internen
+  `*_i`-Signale, und die haben immer HW-1.x-Polarität. Kein `not` an anderer Stelle ergänzen.
+- **Die Hüllen enthalten keine Logik**, nur Ports und Port Map. Die Hüllen derselben Platine
+  (`BallyFA_HW<n>` und `BallyFA_HW<n>_cii`) unterscheiden sich nur in den vier `FLASH_*`-Ports;
+  beide Portlisten gemeinsam ändern.
 - **Kein VIRTUAL_PIN.** Die Cyclone-II-Varianten bauen mit Quartus 13.0sp1, und dort wirkt
-  VIRTUAL_PIN nicht. Ports, die nur eine Platine hat, gehören in deren Hülle.
+  VIRTUAL_PIN nicht. Ports, die ein Board nicht hat, lässt dessen Hülle weg.
+- **Release-Dateien bleiben ROM-frei.** Spiel-ROMs kommen nur in lokale `*_roms.jic`.
 - PowerShell 5.1: **kein `2>&1` auf `quartus_*.exe`**. Git-Bash: **kein `sed -i`** auf
   Dateien dieses Baums, sonst ist CRLF kaputt.
 

@@ -10,10 +10,16 @@
 # Pfade in Bally.cof relativ dazu (output_files/Bally.sof). Frueher waren sie absolut; die
 # .cof der HW2-Cyclone-10-Variante zeigte zuletzt auf einen Ordner, den es nicht mehr gab.
 # Cyclone II liefert die .pof direkt aus dem Assembler (USE_CONFIGURATION_DEVICE ON).
+#
+# -RomImage <SD-Kartenimage>: zusaetzlich die lokale ROM-Fassung (nur HAS_FLASH_ROM,
+# also Cyclone IV/10): make_flash_hex.ps1 -> output_files\bally_roms.hex, dann
+# quartus_cpf -c bally_roms.cof -> output_files\bally_roms.jic (Bitstream + Spiel-ROMs).
+# ENTHAELT URHEBERRECHTLICH GESCHUETZTE ROMS - liegt unter output_files\ (gitignored).
 param(
     [Parameter(Mandatory, Position = 0)][string]$Variant,
     [switch]$NoGen,
-    [switch]$NoJic
+    [switch]$NoJic,
+    [string]$RomImage
 )
 
 $ErrorActionPreference = 'Stop'
@@ -29,6 +35,8 @@ $QuartusBin = [ordered]@{
 }
 
 if (-not (Test-Path $VarDir)) { throw "unbekannte Variante: $Variant" }
+# relativ zum Aufrufer, bevor ins Variantenverzeichnis gewechselt wird
+if ($RomImage) { $RomImage = (Resolve-Path $RomImage).Path }
 
 if (-not $NoGen) { & (Join-Path $ScriptDir 'gen_qsf.ps1') -Variants $Variant -Quiet }
 
@@ -53,6 +61,20 @@ try {
         $jic = Join-Path $VarDir "output_files\$Project.jic"
         if (-not (Test-Path $jic)) { throw "keine .jic erzeugt: $jic" }
         "  {0}  {1:N0} Byte" -f (Split-Path $jic -Leaf), (Get-Item $jic).Length
+    }
+    if ($RomImage) {
+        if (-not (Test-Path (Join-Path $VarDir 'bally_roms.cof'))) { throw "$Variant hat keinen Flash-Fallback (keine bally_roms.cof)." }
+        $hex = Join-Path $VarDir 'output_files\bally_roms.hex'
+        & (Join-Path $ScriptDir 'make_flash_hex.ps1') -Image $RomImage -Out $hex
+        & "$bin\quartus_cpf.exe" -c 'bally_roms.cof'
+        if ($LASTEXITCODE -ne 0) { throw "quartus_cpf (bally_roms.cof) ist fehlgeschlagen ($LASTEXITCODE)" }
+        $rjic = Join-Path $VarDir 'output_files\bally_roms.jic'
+        if (-not (Test-Path $rjic)) { throw "keine bally_roms.jic erzeugt" }
+        # Kontrolle in der .map: Bitstream ab 0, ROM-Block ab 080000h
+        $map = Get-Content (Join-Path $VarDir 'output_files\bally_roms.map')
+        if (-not ($map | Where-Object { $_ -match '^Page_0\s+0x00000000' })) { throw 'bally_roms.map: Page_0 beginnt nicht bei 0x00000000' }
+        if (-not ($map | Where-Object { $_ -match '0x00080000' })) { throw 'bally_roms.map: kein Hex-Block ab 0x00080000' }
+        "  {0}  {1:N0} Byte (MIT Spiel-ROMs, nicht weitergeben)" -f (Split-Path $rjic -Leaf), (Get-Item $rjic).Length
     }
     if ($meta.ReleaseArtifact -eq 'pof') {
         $pof = Join-Path $VarDir "output_files\$Project.pof"

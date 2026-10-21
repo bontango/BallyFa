@@ -47,3 +47,10 @@ desktop.ini
 # listen sie als MISC_FILE, ohne sie fehlt der IP-Block beim naechsten Klon.
 # HINWEIS: rom/elektra.hex ist eine QUELLDATEI, kein Buildoutput.
 # HINWEIS: bin/HW_v*.x/*.pof|*.jic sind die ausgelieferten Releases und gehoeren ins Repo.
+
+# Spiel-ROMs im Konfigurationsflash (build.ps1 -RomImage, make_flash_hex.ps1): enthalten
+# urheberrechtlich geschuetzte ROMs, nur lokal. Die Releases in bin\ sind ROM-frei.
+*_roms.jic
+*_roms.hex
+*_roms.map
+*.img

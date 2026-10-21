@@ -9,10 +9,15 @@
 # in version_pkg.vhd, alle acht Boards folgen. Dateinamen wie bisher:
 #   HW 1.x  bin\HW_v1.x\BallyFA_<BoardId><Sub1><Sub2>.pof|.jic     z.B. BallyFA_323.jic
 #   HW 2.x  bin\HW_v2.x\BallyFA_2_<BoardId><Sub1><Sub2>.pof|.jic   z.B. BallyFA_2_323.jic
+#
+# -RomImage <SD-Kartenimage>: fuer die Varianten mit Flash-Fallback zusaetzlich
+# <Name>_roms.jic daneben (Bitstream + Spiel-ROMs, siehe build.ps1). Diese Dateien sind
+# gitignored und gehen nie zu GitHub (Urheberrecht); sie stehen nicht im Changelog.
 param(
     [Parameter(Mandatory)][string]$Note,
     [string[]]$Variants,
-    [switch]$Force
+    [switch]$Force,
+    [string]$RomImage
 )
 
 $ErrorActionPreference = 'Stop'
@@ -55,10 +60,16 @@ foreach ($dir in $dirs) {
 $done = @()
 foreach ($p in $plan) {
     if (-not (Test-Path $p.Target)) { New-Item -ItemType Directory $p.Target | Out-Null }
-    & (Join-Path $ScriptDir 'build.ps1') $p.Dir.Name
+    $withRoms = $RomImage -and (Test-Path (Join-Path $p.Dir.FullName 'bally_roms.cof'))
+    if ($withRoms) { & (Join-Path $ScriptDir 'build.ps1') $p.Dir.Name -RomImage $RomImage }
+    else           { & (Join-Path $ScriptDir 'build.ps1') $p.Dir.Name }
     $src = Join-Path $p.Dir.FullName "output_files\$Project.$($p.Meta.ReleaseArtifact)"
     if (-not (Test-Path $src)) { throw "Artefakt fehlt: $src" }
     Copy-Item $src $p.Dest -Force
+    if ($withRoms) {
+        $rdest = $p.Dest -replace '\.jic$', '_roms.jic'
+        Copy-Item (Join-Path $p.Dir.FullName 'output_files\bally_roms.jic') $rdest -Force
+    }
 
     $sha = (Get-FileHash $p.Dest -Algorithm SHA256).Hash.Substring(0, 16)
     $hwPrefix = if ($p.Meta.HwGen -eq 2) { '2_' } else { '' }
