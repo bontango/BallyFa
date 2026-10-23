@@ -5,6 +5,12 @@ Altera/Intel FPGA – mit SD-Karte für die Spiel-ROMs, EEPROM/FRAM für die Ein
 Münzprüfer und bei HW 2.x einem USB-Anschluss (lisy_api / MPF beta).
 Hardware und Hintergrund: <https://lisy.dev/>
 
+## Handbuch
+
+**Online lesen:** <https://bontango.github.io/BallyFa/>
+
+- [BallyFA user manual (English)](https://bontango.github.io/BallyFa/BallyFA_user_manual.html)
+
 ## Varianten
 
 Acht Varianten = vier FPGA-Boards × zwei Basisplatinen.
