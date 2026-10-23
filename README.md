@@ -74,7 +74,7 @@ bin/                   ausgelieferte .pof/.jic wie auf lisy.dev/swrep/BallyFA/so
                        hardware_v1.x/ und hardware_v2.x/, darunter je Cyclone_II/,
                        Cyclone_IV/FPGA_board_v3.x/ (F17), Cyclone_IV/FPGA_board_v4.x/ (E22),
                        Cyclone_10/; dazu Changelog.txt
-docs/                  WORKFLOW.md
+docs/                  BallyFA_user_manual.html (user manual), WORKFLOW.md
 ```
 
 **`variants/<name>/Bally.qsf` niemals von Hand ändern.** Sie wird aus den Fragmenten in
