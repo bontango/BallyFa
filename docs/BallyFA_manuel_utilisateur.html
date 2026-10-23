@@ -1,0 +1,3048 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>BallyFA manuel d&#39;utilisation</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">:root {
+--bg: #fbfaf7;
+--fg: #1d1f21;
+--muted: #5a5f66;
+--accent: #0b5cad;
+--rule: #d9d6cf;
+--code-bg: #f0eee8;
+--th-bg: #ece9e1;
+--row-alt: #f5f3ee;
+--note-bg: #eef4fb;
+--note-rule: #0b5cad;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--bg: #17191c;
+--fg: #e4e2dd;
+--muted: #a3a7ad;
+--accent: #6fb1f2;
+--rule: #3a3d42;
+--code-bg: #24272b;
+--th-bg: #2a2d32;
+--row-alt: #1d2024;
+--note-bg: #1c2633;
+--note-rule: #6fb1f2;
+}
+}
+:root[data-theme="dark"] {
+--bg: #17191c;
+--fg: #e4e2dd;
+--muted: #a3a7ad;
+--accent: #6fb1f2;
+--rule: #3a3d42;
+--code-bg: #24272b;
+--th-bg: #2a2d32;
+--row-alt: #1d2024;
+--note-bg: #1c2633;
+--note-rule: #6fb1f2;
+}
+html { -webkit-text-size-adjust: 100%; }
+body {
+background: var(--bg);
+color: var(--fg);
+font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+max-width: 58rem;
+margin: 0 auto;
+padding: 2rem 1rem 4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; margin: 2.2em 0 0.6em; }
+h1 { font-size: 2.2rem; margin-top: 0.5em; border-bottom: 3px solid var(--accent); padding-bottom: 0.2em; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.2em; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1.05rem; color: var(--muted); }
+a { color: var(--accent); }
+a:not(:hover) { text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+p, ul, ol, table, pre, blockquote { margin: 0 0 1em; }
+li { margin: 0.15em 0; }
+li > p { margin: 0.2em 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 4px; }
+code {
+font-family: Consolas, "Cascadia Mono", "SFMono-Regular", Menlo, monospace;
+font-size: 0.9em;
+background: var(--code-bg);
+padding: 0.1em 0.3em;
+border-radius: 3px;
+}
+pre {
+background: var(--code-bg);
+padding: 0.8em 1em;
+border-radius: 4px;
+overflow-x: auto;
+line-height: 1.4;
+}
+pre code { background: none; padding: 0; font-size: 0.85em; }
+blockquote {
+background: var(--note-bg);
+border-left: 4px solid var(--note-rule);
+margin-left: 0;
+padding: 0.6em 1em;
+}
+blockquote > :last-child { margin-bottom: 0; }
+table {
+border-collapse: collapse;
+display: block;
+overflow-x: auto;
+max-width: 100%;
+font-size: 0.95em;
+}
+th, td { border: 1px solid var(--rule); padding: 0.3em 0.6em; vertical-align: top; text-align: left; }
+th { background: var(--th-bg); }
+tbody tr:nth-child(even) { background: var(--row-alt); }
+table.gamelist td, table.gamelist th { padding: 0.15em 0.45em; white-space: nowrap; }
+
+.titlepage { margin-bottom: 2.5em; }
+.titlepage p { margin: 0.2em 0; }
+@media (max-width: 600px) {
+body { font-size: 15px; padding: 1rem 1rem 3rem; }
+h1 { font-size: 1.8rem; }
+}
+@media print {
+body { background: #fff; color: #000; max-width: none; font-size: 10.5pt; padding: 0; }
+a { color: #000; text-decoration: none; }
+h2, h3 { break-after: avoid; }
+pre, table, img, blockquote { break-inside: avoid; }
+tbody tr:nth-child(even) { background: #f3f3f3; }
+}
+</style>
+</head>
+<body>
+<h1 id="ballyfa">BallyFA</h1>
+<p><strong>MPU Bally à base de FPGA</strong></p>
+<p><strong>Version matérielle 1.x et 2.x</strong></p>
+<p><strong>Version logicielle x.30</strong></p>
+<p><strong>manuel d&#39;utilisation</strong></p>
+<p><a href="mailto:ralf@lisy.dev">ralf@lisy.dev</a></p>
+<p>v1.30 23.10.2026</p>
+<blockquote>
+<p>Version française de <a href="BallyFA_user_manual.html">BallyFA_user_manual.html</a>. Deutsche
+Fassung: <a href="BallyFA_Bedienungsanleitung.html">BallyFA_Bedienungsanleitung.html</a>.
+La numérotation des chapitres est la même dans les trois versions.</p>
+</blockquote>
+<h2 id="table-des-matières">Table des matières</h2>
+<ul>
+<li><a href="#remarque-importante">Remarque importante</a></li>
+<li><a href="#1-introduction">1. Introduction</a></li>
+<li><a href="#2-démarrage-rapide">2. Démarrage rapide</a></li>
+<li><a href="#3-installation">3. Installation</a></li>
+<li><a href="#4-réglage-des-interrupteurs-dip">4. Réglage des
+interrupteurs DIP</a>
+<ul>
+<li><a href="#41-banc-dip-s1--choix-du-jeu">4.1. Banc DIP S1 : choix du
+jeu</a></li>
+<li><a href="#42-banc-dip-s2--options">4.2. Banc DIP S2 : options</a>
+<ul>
+<li><a href="#421-s2-dip1---émulateur-de-zero-cross">4.2.1. S2-Dip1
+-&gt; émulateur de zero cross</a></li>
+<li><a href="#422-s2-dip2---sauvegarde-continue-du-nvram">4.2.2. S2-Dip2
+-&gt; sauvegarde continue du nvram</a></li>
+<li><a href="#423-s2-dip3---non-utilisé">4.2.3. S2-Dip3 -&gt; non
+utilisé</a></li>
+<li><a href="#424-s2-dip4---anti-scintillement-pour-les-jeux-à-led">4.2.4.
+S2-Dip4 -&gt; anti-scintillement pour les jeux à LED</a></li>
+<li><a href="#425-s2-dip5---monnayeur">4.2.5. S2-Dip5 -&gt;
+monnayeur</a></li>
+<li><a href="#426-s2-dip6---initialisation-du-nvram">4.2.6. S2-Dip6
+-&gt; initialisation du nvram</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#5-séquence-de-démarrage">5. Séquence de démarrage</a>
+<ul>
+<li><a href="#51-phase-1--laffichage-dinformations">5.1. Phase 1 :
+l&#39;affichage d&#39;informations</a></li>
+<li><a href="#52-phase-2--lecture-de-la-carte-sd">5.2. Phase 2 : lecture
+de la carte SD</a></li>
+<li><a href="#53-fonctionnement-sans-carte-sd-x30-cyclone-iv-et-cyclone-10">5.3.
+Fonctionnement sans carte SD (x.30, Cyclone IV et Cyclone 10)</a></li>
+<li><a href="#54-phase-3--exécution-du-programme">5.4. Phase 3 :
+exécution du programme</a></li>
+</ul></li>
+<li><a href="#6-les-led-de-la-carte">6. Les LED de la carte</a></li>
+<li><a href="#7-monnayeur-optionnel">7. Monnayeur (optionnel)</a></li>
+<li><a href="#8-connexion-usb-matériel-2x">8. Connexion USB (matériel
+2.x)</a></li>
+<li><a href="#9-variantes-de-carte-et-programme-fpga">9. Variantes de
+carte et programme FPGA</a></li>
+<li><a href="#10-structure-de-la-carte-sd">10. Structure de la carte
+SD</a>
+<ul>
+<li><a href="#101-limage-ballyfa">10.1. L&#39;image BallyFA</a></li>
+<li><a href="#102-utiliser-ses-propres-rom">10.2. Utiliser ses propres
+ROM</a></li>
+</ul></li>
+<li><a href="#11-rom-de-jeu-dans-la-flash-du-fpga">11. ROM de jeu dans
+la flash du FPGA</a></li>
+<li><a href="#12-historique-des-versions">12. Historique des
+versions</a></li>
+<li><a href="#annexe-a-choix-du-jeu">Annexe A choix du jeu</a></li>
+<li><a href="#annexe-b-description-des-rom">Annexe B description des
+ROM</a></li>
+</ul>
+<h2 id="remarque-importante">Remarque importante</h2>
+<p>L&#39;utilisation de BallyFA peut endommager votre flipper. Comme il
+s&#39;agit d&#39;un projet privé SANS intérêt commercial, l&#39;auteur décline toute
+responsabilité pour les dommages qui pourraient résulter de
+l&#39;utilisation de BallyFA !</p>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>BallyFA utilise un FPGA (bon marché) qui émule le matériel d&#39;une MPU
+Bally -17 / -35 : le processeur 6800, les deux PIA 6821, la RAM 6810, la
+RAM CMOS 5101 et les ROM de jeu U2 et U6. L&#39;exception est le connecteur
+« J5 » : BallyFA ne peut pas être utilisé sur les jeux Stern dont la
+carte son est raccordée par J5. Pour ces jeux, il existe
+<strong>SternFA</strong>.</p>
+<p>BallyFA est un projet 100 % amateur. Cela rend la solution bon marché
+: selon l&#39;endroit où vous achetez les composants, vous pouvez construire
+votre MPU Bally de remplacement pour moins de 50 €.</p>
+<p><strong>De quoi avez-vous besoin ?</strong></p>
+<ul>
+<li>Des notions de base en soudure (la plupart des fournisseurs livrent
+les composants CMS déjà montés)</li>
+<li>La possibilité de lire et d&#39;écrire des cartes micro SD</li>
+<li>Un PC avec un port USB et un USB Blaster pour programmer le
+FPGA</li>
+</ul>
+<p><strong>Trois choses sont bonnes à savoir avant de commencer
+:</strong></p>
+<ul>
+<li><strong>Les ROM de jeu sont rechargées à chaque mise sous
+tension</strong>, depuis la carte SD. Les cartes équipées d&#39;une carte
+FPGA Cyclone IV ou Cyclone 10 peuvent aussi les lire dans leur flash de
+configuration quand aucune carte SD n&#39;est insérée (à partir de x.30,
+chapitre 5.3).</li>
+<li><strong>Les interrupteurs DIP sont lus au démarrage.</strong> Après
+en avoir changé un, éteignez puis rallumez le flipper.</li>
+<li><strong>Le programme FPGA dépend de votre carte.</strong> La carte
+de base (HW 1.x ou HW 2.x) et la carte FPGA (Cyclone II, Cyclone IV
+v3.x, Cyclone IV v4.x, Cyclone 10) demandent chacune leur propre fichier
+- voir le chapitre 9. La version affichée au démarrage indique lequel
+tourne.</li>
+</ul>
+<h2 id="2-démarrage-rapide">2. Démarrage rapide</h2>
+<ol type="1">
+<li>Téléchargez la dernière image de carte SD et le programme FPGA de
+votre carte sur lisy.dev (chapitre 9)</li>
+<li>Écrivez l&#39;image sur une carte micro SD et insérez la carte dans la
+platine</li>
+<li>Programmez le FPGA</li>
+<li>Réglez le banc DIP S1 « choix du jeu » selon votre flipper (annexe
+A)</li>
+<li>Laissez pour commencer tout le banc DIP S2 « options » sur
+<strong>OFF</strong></li>
+<li>Remplacez votre MPU Bally d&#39;origine par BallyFA</li>
+<li>Allumez le flipper</li>
+<li>Observez les afficheurs pendant les premières secondes et vérifiez
+que la version et le numéro de jeu sont ceux attendus (chapitre
+5.1)</li>
+<li>Amusez-vous</li>
+</ol>
+<p>La première programmation de la carte est décrite sur mon site : <a href="https://lisy.dev/documentation-01.html">https://lisy.dev/documentation-01.html</a></p>
+<h2 id="3-installation">3. Installation</h2>
+<p>Les cartes BallyFA ont les mêmes connecteurs et les mêmes trous de
+fixation que les MPU Bally/Stern d&#39;origine ; le remplacement se fait
+donc en quelques secondes. Éteignez le flipper, retirez la MPU
+d&#39;origine, mettez BallyFA en place, c&#39;est fini.</p>
+<h2 id="4-réglage-des-interrupteurs-dip">4. Réglage des interrupteurs
+DIP</h2>
+<h3 id="41-banc-dip-s1--choix-du-jeu">4.1. Banc DIP S1 : choix du
+jeu</h3>
+<p>Ici, vous choisissez le jeu que BallyFA doit exécuter. Cela dépend
+des ROM présentes sur la carte SD ; l&#39;annexe A liste le contenu de
+l&#39;image actuelle, le chapitre 10 explique la structure de la carte.</p>
+<p><strong>La position des interrupteurs est simplement le numéro du jeu
+en binaire</strong>, S1 étant le bit de poids faible :</p>
+<table>
+<thead>
+<tr>
+<th>Interrupteur</th>
+<th>S1</th>
+<th>S2</th>
+<th>S3</th>
+<th>S4</th>
+<th>S5</th>
+<th>S6</th>
+<th>S7</th>
+<th>S8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ajoute</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>128</td>
+</tr>
+</tbody>
+</table>
+<p>ON = la valeur est ajoutée. Le jeu 36 (ELEKTRA) correspond donc à 4 +
+32 = S3 et S6 sur ON, tout le reste sur OFF. L&#39;annexe A détaille cela
+pour chaque jeu.</p>
+<h3 id="42-banc-dip-s2--options">4.2. Banc DIP S2 : options</h3>
+<p>Le réglage par défaut est tout sur <strong>OFF</strong>.</p>
+<h4 id="421-s2-dip1---émulateur-de-zero-cross">4.2.1. S2-Dip1 -&gt;
+émulateur de zero cross</h4>
+<p>Une MPU Bally a besoin d&#39;un signal « zero cross » (passage par zéro)
+pour fonctionner correctement ; ce signal provient de l&#39;alimentation 12
+volts. Sa présence est vérifiée au démarrage.</p>
+<p>Avec Dip1 sur <strong>ON</strong>, BallyFA génère lui-même ce signal
+; pour des essais sur l&#39;établi, une alimentation 5 volts suffit alors.
+<strong>Avec un zero cross émulé, la temporisation est
+différente</strong> - à utiliser sur l&#39;établi, pas dans le flipper.</p>
+<h4 id="422-s2-dip2---sauvegarde-continue-du-nvram">4.2.2. S2-Dip2 -&gt;
+sauvegarde continue du nvram</h4>
+<p>BallyFA enregistre le contenu du nvram (meilleurs scores et réglages
+étendus) dans une EEPROM ou une FRAM. Chaque jeu y dispose de sa propre
+zone.</p>
+<p>En jeu normal, le contenu du nvram est sauvegardé automatiquement -
+déclenché par l&#39;interrupteur de test, le relais de fin de partie (game
+over) et le bouton de crédit.</p>
+<p>Avec Dip2 sur <strong>ON</strong>, BallyFA sauvegarde en plus tout le
+contenu du nvram <strong>chaque seconde</strong>. C&#39;est prévu pour les
+essais sur l&#39;établi.</p>
+<blockquote>
+<p><strong>Attention : ne mettez Dip2 sur ON que sur une carte équipée
+d&#39;une FRAM.</strong> Une EEPROM ne supporte qu&#39;un nombre limité de
+cycles d&#39;écriture, et une sauvegarde chaque seconde l&#39;use. Une FRAM n&#39;y
+est pas sensible. (Modifié avec le logiciel x.23 ; auparavant, Dip2
+déclenchait une sauvegarde unique.)</p>
+</blockquote>
+<h4 id="423-s2-dip3---non-utilisé">4.2.3. S2-Dip3 -&gt; non utilisé</h4>
+<p>Non implémenté, laissez-le sur OFF.</p>
+<h4 id="424-s2-dip4---anti-scintillement-pour-les-jeux-à-led">4.2.4.
+S2-Dip4 -&gt; anti-scintillement pour les jeux à LED</h4>
+<p>Avec Dip4 sur <strong>ON</strong>, BallyFA modifie la temporisation
+du signal zero cross. Les jeux Bally sont connus pour faire scintiller
+les ampoules de remplacement à LED ; en général, chaque LED a besoin
+d&#39;une résistance en parallèle pour y remédier. Avec cette option, les
+LED ne scintillent plus, même sans ces résistances.</p>
+<h4 id="425-s2-dip5---monnayeur">4.2.5. S2-Dip5 -&gt; monnayeur</h4>
+<p>Avec Dip5 sur <strong>ON</strong>, l&#39;entrée du monnayeur est activée
+(chapitre 7). Ne l&#39;activez pas si aucun monnayeur n&#39;est raccordé.</p>
+<h4 id="426-s2-dip6---initialisation-du-nvram">4.2.6. S2-Dip6 -&gt;
+initialisation du nvram</h4>
+<p>Avec Dip6 sur <strong>ON</strong>, BallyFA remet à zéro le nvram du
+jeu choisi au démarrage. C&#39;est utile si vous voulez effacer tout le
+contenu de la RAM.</p>
+<p>Remettez-le ensuite sur OFF et éteignez puis rallumez - sinon le
+flipper efface ses réglages à chaque démarrage.</p>
+<h2 id="5-séquence-de-démarrage">5. Séquence de démarrage</h2>
+<h3 id="51-phase-1--laffichage-dinformations">5.1. Phase 1 : l&#39;affichage
+d&#39;informations</h3>
+<p>Juste après avoir allumé le flipper équipé de BallyFA, vous voyez
+ceci sur les afficheurs, avant que le moindre code de jeu ne s&#39;exécute
+:</p>
+<table>
+<thead>
+<tr>
+<th>Afficheur</th>
+<th>Montre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Joueur 1</strong></td>
+<td>la version du programme FPGA en cours, par ex. <code>4 3 0</code>.
+Le premier chiffre désigne la carte FPGA, un <code>2</code> en tête
+signifie carte de base HW 2.x - par ex. <code>2 4 3 0</code> (chapitre
+9)</td>
+</tr>
+<tr>
+<td><strong>Joueur 2</strong></td>
+<td>le numéro de jeu choisi avec S1</td>
+</tr>
+<tr>
+<td><strong>Joueur 3</strong></td>
+<td><code>050963</code> - l&#39;identifiant lisy.dev des MPU à base de FPGA.
+Il est fixe et indique seulement que la liaison vers les afficheurs
+fonctionne</td>
+</tr>
+<tr>
+<td><strong>Joueur 4</strong></td>
+<td>vide si le jeu vient de la carte SD. S&#39;il vient de la flash de
+configuration : le numéro du jeu (chapitre 5.3)</td>
+</tr>
+<tr>
+<td><strong>Crédit / état</strong></td>
+<td>un compteur qui décompte à chaque clignotement de la LED verte «
+Bally »</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vérifiez les joueurs 1 et 2 à chaque premier
+démarrage.</strong> Ils indiquent si le bon programme est dans le FPGA
+et si les interrupteurs de choix du jeu sont réglés comme vous le
+pensiez.</p>
+<p>Après les cinq premiers clignotements, les afficheurs s&#39;éteignent
+jusqu&#39;à ce que le code du jeu en prenne le contrôle.</p>
+<h3 id="52-phase-2--lecture-de-la-carte-sd">5.2. Phase 2 : lecture de la
+carte SD</h3>
+<p>BallyFA lit la ROM du jeu choisi sur la carte SD. En cas d&#39;échec, la
+<strong>LED rouge « SD card error »</strong> clignote un code - un
+clignotement par seconde, le nombre de clignotements indique à quelle
+étape de l&#39;initialisation de la carte l&#39;échec s&#39;est produit - puis reste
+allumée. Le CPU n&#39;est pas démarré.</p>
+<p>Si la lecture réussit, la LED rouge reste éteinte.</p>
+<h3 id="53-fonctionnement-sans-carte-sd-x30-cyclone-iv-et-cyclone-10">5.3.
+Fonctionnement sans carte SD (x.30, Cyclone IV et Cyclone 10)</h3>
+<p><strong>Nouveau avec le logiciel x.30.</strong> Si <strong>aucune
+carte SD ne répond</strong>, une carte équipée d&#39;une carte FPGA Cyclone
+IV ou Cyclone 10 ne s&#39;arrête pas là : elle charge le jeu choisi depuis
+la flash de configuration (EPCS16) à partir de laquelle le FPGA démarre
+lui-même, sous le même numéro de jeu que sur la carte SD.</p>
+<ul>
+<li><strong>Un démarrage depuis la flash se reconnaît à l&#39;afficheur 4
+:</strong> pendant l&#39;affichage d&#39;informations, il montre le numéro du
+jeu. Avec une carte SD, il reste vide.</li>
+<li>Pour des raisons de droits d&#39;auteur, les fichiers publiés sur
+lisy.dev ne contiennent <strong>aucun</strong> jeu dans la flash. Sans
+carte, le démarrage se termine alors par l&#39;<strong>erreur 8</strong> :
+l&#39;afficheur 4 montre un <code>8</code> devant le numéro du jeu, la LED
+rouge clignote <strong>8 fois</strong>, fait une pause de 2 secondes et
+recommence, et le CPU ne démarre pas.</li>
+<li>L&#39;erreur 8 apparaît aussi pour un numéro de jeu absent de la flash.
+Il y a de la place pour 192 jeux (0 à 191) ; l&#39;image flash construite à
+partir de la carte SD v111 contient les 142 jeux de l&#39;annexe A.</li>
+<li>Comment les jeux arrivent dans la flash : chapitre 11.</li>
+<li><strong>Les cartes équipées d&#39;une carte FPGA Cyclone II n&#39;ont pas de
+repli sur la flash</strong> - elles ont toujours besoin de la carte
+SD.</li>
+</ul>
+<h3 id="54-phase-3--exécution-du-programme">5.4. Phase 3 : exécution du
+programme</h3>
+<p>Le code choisi avec le banc DIP « choix du jeu » est exécuté. Il
+lance la séquence de démarrage Bally normale en faisant clignoter la LED
+verte « Bally ». Si le code tourne (des interruptions régulières
+arrivent), la LED verte « ON » s&#39;allume.</p>
+<p>À partir de là, le flipper se comporte comme avec l&#39;original.</p>
+<h2 id="6-les-led-de-la-carte">6. Les LED de la carte</h2>
+<table>
+<thead>
+<tr>
+<th>LED</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SD card error</strong> (rouge)</td>
+<td>éteinte est l&#39;état normal. Clignotement puis allumage fixe = la
+carte SD n&#39;a pas pu être lue (5.2). 8 clignotements de suite avec une
+pause = erreur 8, jeu absent de la flash (5.3)</td>
+</tr>
+<tr>
+<td><strong>zero cross</strong></td>
+<td>montre le signal zero cross de l&#39;alimentation. S&#39;il manque, regardez
+la carte de redressement, pas BallyFA</td>
+</tr>
+<tr>
+<td><strong>Bally</strong> (verte)</td>
+<td>la LED de la MPU d&#39;origine : clignote pendant la séquence de
+démarrage du code de jeu</td>
+</tr>
+<tr>
+<td><strong>ON</strong> (verte)</td>
+<td>allumée tant que le code de jeu tourne et que les interruptions
+arrivent régulièrement</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-monnayeur-optionnel">7. Monnayeur (optionnel)</h2>
+<p>Vous pouvez raccorder un monnayeur standard (par ex. NRI-G13) au
+connecteur situé sous la carte BallyFA. Pour activer le monnayeur,
+mettez Dip5 du banc DIP « options » sur ON.</p>
+<p>Correspondance entre interrupteurs Bally et canaux pour BallyFA :</p>
+<table>
+<thead>
+<tr>
+<th>Interrupteur Bally</th>
+<th>Monnayeur</th>
+<th>Canal du monnayeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#9</td>
+<td>fente droite</td>
+<td>canal 6</td>
+</tr>
+<tr>
+<td>#10</td>
+<td>fente gauche</td>
+<td>canal 4</td>
+</tr>
+<tr>
+<td>#11</td>
+<td>fente centrale</td>
+<td>canal 5</td>
+</tr>
+</tbody>
+</table>
+<p>La sortie de blocage des pièces (coin lockout) du jeu commande aussi
+l&#39;entrée de blocage du monnayeur.</p>
+<h2 id="8-connexion-usb-matériel-2x">8. Connexion USB (matériel
+2.x)</h2>
+<p>La carte de base HW 2.x possède un connecteur USB (convertisseur
+série CH340). Derrière, le FPGA utilise le protocole
+<strong>lisy_api</strong> pour le Mission Pinball Framework (MPF). Il
+s&#39;agit d&#39;une <strong>bêta</strong> : pour l&#39;instant, il ne répond qu&#39;à
+la détection du matériel par MPF. Le connecteur USB n&#39;est pas nécessaire
+pour jouer normalement.</p>
+<p>Les cartes HW 1.x n&#39;ont pas de connecteur USB.</p>
+<h2 id="9-variantes-de-carte-et-programme-fpga">9. Variantes de carte et
+programme FPGA</h2>
+<p>Le même design fonctionne sur huit combinaisons de carte de base et
+de carte FPGA, et <strong>le programme FPGA n&#39;est pas interchangeable
+entre elles</strong> - le brochage diffère, et un mauvais programme
+n&#39;affichera au mieux rien et pilotera au pire les mauvaises broches.</p>
+<table>
+<thead>
+<tr>
+<th>Carte de base</th>
+<th>Carte FPGA</th>
+<th>Version affichée</th>
+<th>Fichier x.30</th>
+<th>Repli sur la flash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HW 1.x</td>
+<td>Cyclone II</td>
+<td><code>1.30</code></td>
+<td><code>hardware_v1.x/Cyclone_II/BallyFA_130.pof</code></td>
+<td>–</td>
+</tr>
+<tr>
+<td>HW 1.x</td>
+<td>Cyclone IV v3.x</td>
+<td><code>2.30</code></td>
+<td><code>hardware_v1.x/Cyclone_IV/FPGA_board_v3.x/BallyFA_230.jic</code></td>
+<td>oui</td>
+</tr>
+<tr>
+<td>HW 1.x</td>
+<td>Cyclone IV v4.x</td>
+<td><code>3.30</code></td>
+<td><code>hardware_v1.x/Cyclone_IV/FPGA_board_v4.x/BallyFA_330.jic</code></td>
+<td>oui</td>
+</tr>
+<tr>
+<td>HW 1.x</td>
+<td>Cyclone 10</td>
+<td><code>4.30</code></td>
+<td><code>hardware_v1.x/Cyclone_10/BallyFA_430.jic</code></td>
+<td>oui</td>
+</tr>
+<tr>
+<td>HW 2.x</td>
+<td>Cyclone II</td>
+<td><code>2 1.30</code></td>
+<td><code>hardware_v2.x/Cyclone_II/BallyFA_2_130.pof</code></td>
+<td>–</td>
+</tr>
+<tr>
+<td>HW 2.x</td>
+<td>Cyclone IV v3.x</td>
+<td><code>2 2.30</code></td>
+<td><code>hardware_v2.x/Cyclone_IV/FPGA_board_v3.x/BallyFA_2_230.jic</code></td>
+<td>oui</td>
+</tr>
+<tr>
+<td>HW 2.x</td>
+<td>Cyclone IV v4.x</td>
+<td><code>2 3.30</code></td>
+<td><code>hardware_v2.x/Cyclone_IV/FPGA_board_v4.x/BallyFA_2_330.jic</code></td>
+<td>oui</td>
+</tr>
+<tr>
+<td>HW 2.x</td>
+<td>Cyclone 10</td>
+<td><code>2 4.30</code></td>
+<td><code>hardware_v2.x/Cyclone_10/BallyFA_2_430.jic</code></td>
+<td>oui</td>
+</tr>
+</tbody>
+</table>
+<p><strong>L&#39;affichage d&#39;informations indique quel programme tourne
+:</strong> sur l&#39;afficheur du joueur 1, le <code>2</code> en tête
+désigne la carte de base HW 2.x, le chiffre suivant la carte FPGA, les
+deux derniers la version du logiciel. Les fichiers se trouvent dans le
+dépôt logiciel BallyFA, avec la même arborescence :</p>
+<blockquote>
+<p><strong><a href="https://lisy.dev/swrep/BallyFA/software/">https://lisy.dev/swrep/BallyFA/software/</a></strong></p>
+</blockquote>
+<p>L&#39;installation du logiciel de programmation et du pilote USB Blaster
+ainsi que la programmation du FPGA sont décrites sur <a href="https://lisy.dev/documentation-01.html">https://lisy.dev/documentation-01.html</a>.
+Le FPGA est configuré depuis une mémoire de configuration série, le
+programme reste donc en place après une coupure de courant. On le
+programme une fois, pas à chaque démarrage.</p>
+<h2 id="10-structure-de-la-carte-sd">10. Structure de la carte SD</h2>
+<p>En raison des limites de la routine de lecture SD dans le FPGA (elle
+lit des numéros de secteur fixes au lieu de chercher des noms de
+fichier), il faut utiliser mon image de carte SD (128 Mo). Vous pouvez
+écrire l&#39;image sur la carte SD de votre choix avec un outil de copie
+brute (par exemple Win32DiskImager, balenaEtcher ou
+<code>dd</code>).</p>
+<p>Avec le choix du jeu entièrement sur « 0 », BallyFA lit la première
+image ROM au secteur 660. Avec mon image BallyFA de 128 Mo, c&#39;est
+l&#39;emplacement du premier fichier écrit sur une carte SD vide. Chaque jeu
+occupe 16 secteurs, le jeu <em>n</em> commence donc au secteur 660 +
+<em>n</em> x 16.</p>
+<p>Les ROM Bally doivent être au format « U2 / U6 », de 4 Ko chacune ;
+une image ROM utilisable par BallyFA fait donc 8 Ko : d&#39;abord U2, puis
+U6.</p>
+<h3 id="101-limage-ballyfa">10.1. L&#39;image BallyFA</h3>
+<p><strong>Mon image de carte SD BallyFA (v111) contient presque toutes
+les ROM disponibles - 142 jeux. La liste des jeux est à l&#39;annexe A, une
+description des ROM spéciales à l&#39;annexe B.</strong></p>
+<h3 id="102-utiliser-ses-propres-rom">10.2. Utiliser ses propres
+ROM</h3>
+<p>Supposons que vous ayez un flipper Bally KISS avec les fichiers ROM
+U2 : <code>KISS2732.U2</code> et U6 : <code>720-3032.U6</code>. Vous
+créez votre ROM BallyFA en ligne de commande Windows avec :</p>
+<pre><code>copy /b KISS2732.U2 + 720-3032.U6 BallyFA_Kiss.rom</code></pre>
+<p>Supprimez TOUS les fichiers de votre carte SD BallyFA et copiez-y
+<code>BallyFA_Kiss.rom</code>. En réglant le choix du jeu sur « 0 »,
+c&#39;est maintenant KISS qui tourne.</p>
+<h2 id="11-rom-de-jeu-dans-la-flash-du-fpga">11. ROM de jeu dans la
+flash du FPGA</h2>
+<p>Les cartes équipées d&#39;une carte FPGA Cyclone IV ou Cyclone 10
+démarrent depuis une puce flash de 2 Mo (EPCS16). Le programme FPGA
+occupe les 512 premiers Ko ; à partir de l&#39;adresse 080000h, il y a de la
+place pour 192 jeux de 8 Ko chacun, octet pour octet les mêmes images
+que sur la carte SD :</p>
+<pre><code>adresse flash 080000h + numéro de jeu x 2000h    ROM de jeu de 8 Ko (U2 + U6)</code></pre>
+<p>Les ROM sont protégées par le droit d&#39;auteur et ne peuvent donc pas
+faire partie du téléchargement. Vous les y placez vous-même, à partir
+d&#39;une image de votre carte SD. Dans l&#39;arborescence source de BallyFA
+(github.com/bontango/BallyFa), exécutez</p>
+<pre><code>powershell -File scripts\build.ps1 &lt;variant&gt; -RomImage &lt;path&gt;\BallyFA_SD_111.img</code></pre>
+<p>par exemple avec <code>hw2_cyclone_10</code> ; les noms des variantes
+figurent dans le <code>README.md</code> du dépôt. Cela construit le
+programme FPGA et le regroupe avec tous les jeux de l&#39;image dans un seul
+fichier,
+<code>variants\&lt;variant&gt;\output_files\bally_roms.jic</code>.
+Programmez-le avec le Quartus Programmer à la place du <code>.jic</code>
+normal.</p>
+<p>Dès lors, la carte fonctionne sans carte SD. Si une carte SD est
+insérée, elle a toujours la priorité ; vous pouvez donc toujours essayer
+d&#39;autres ROM depuis une carte sans toucher à la flash.</p>
+<p><strong>Gardez ce fichier pour vous.</strong> Il contient les ROM de
+jeu et ne doit pas être diffusé.</p>
+<h2 id="12-historique-des-versions">12. Historique des versions</h2>
+<p>La version affichée au démarrage est
+<code>[2] carte . sous-version</code>, par ex. <code>2 4.23</code> pour
+HW 2.x avec Cyclone 10 et le logiciel x.23.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Modification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x.11</td>
+<td>Dip4 : zero cross retardé contre le scintillement des LED (ne
+fonctionne pas encore)</td>
+</tr>
+<tr>
+<td>x.12</td>
+<td>nouvelle routine de carte SD, compatible avec plus de cartes</td>
+</tr>
+<tr>
+<td>x.13</td>
+<td>essais d&#39;horloge annulés à cause du ghosting</td>
+</tr>
+<tr>
+<td>x.14</td>
+<td>décalage de l&#39;horloge d&#39;affichage adapté aux interruptions des
+cartes combo (ne fonctionne pas)</td>
+</tr>
+<tr>
+<td>x.15</td>
+<td>bogue d&#39;IRQ corrigé dans pia6821, horloge d&#39;affichage sans décalage
+et à vitesse adaptée</td>
+</tr>
+<tr>
+<td>x.16</td>
+<td>CB2 (sélection du son) mis à l&#39;état haut au démarrage (problème
+d&#39;initialisation de la carte son sur X&#39;s and O&#39;s)</td>
+</tr>
+<tr>
+<td>x.17</td>
+<td>pull-ups faibles sur U10_PB, CV_CH, S33, U10_CA1, U11_CB1, zero
+cross à cause du 74LVC245A</td>
+</tr>
+<tr>
+<td>x.18</td>
+<td>LED_0 activée après le démarrage et la lecture SD, nécessaire à une
+initialisation propre de la carte Cheap Squeak (BallyFA HW v1.11)</td>
+</tr>
+<tr>
+<td>x.19</td>
+<td>l&#39;option Dip4 active le zero cross retardé contre le scintillement
+des LED</td>
+</tr>
+<tr>
+<td>x.20</td>
+<td>routine de carte SD corrigée, calcul sûr des numéros de secteur</td>
+</tr>
+<tr>
+<td>x.21</td>
+<td>indicateur zero cross ajusté, la LED zero cross ne clignote plus
+avec la MPU-133</td>
+</tr>
+<tr>
+<td>x.22</td>
+<td>deuxième zone (miroir) pour la RAM CMOS - Baby Pacman la vérifie
+pendant son autotest</td>
+</tr>
+<tr>
+<td>x.23</td>
+<td>option Dip2 modifiée : si elle est activée, le contenu CMOS est
+sauvegardé chaque seconde dans l&#39;EEPROM/FRAM (uniquement avec FRAM)</td>
+</tr>
+<tr>
+<td><strong>x.30</strong></td>
+<td><strong>ROM de jeu depuis la flash de configuration quand aucune
+carte SD ne répond</strong> (Cyclone IV/10, jeux 0..191, erreur 8 pour
+un emplacement vide, l&#39;afficheur 4 montre le numéro du jeu) ; correction
+de temporisation pour Cyclone II ; une arborescence source commune pour
+les huit cartes</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="annexe-a-choix-du-jeu">Annexe A choix du jeu</h2>
+<p>Numéros de jeu de l&#39;image de carte SD <strong>v111</strong>. on =
+interrupteur fermé. La position est le numéro du jeu en binaire avec S1
+comme bit de poids faible, voir 4.1. Les noms de jeu et les remarques
+proviennent de l&#39;image et ne sont pas traduits : <code>Freeplay</code> =
+version en partie gratuite, <code>7digit mod</code> = modifié pour
+afficheurs à 7 chiffres, <code>2 player</code>/<code>4 player</code> =
+nombre de joueurs.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;"><strong>N°</strong></th>
+<th><strong>S1</strong></th>
+<th><strong>S2</strong></th>
+<th><strong>S3</strong></th>
+<th><strong>S4</strong></th>
+<th><strong>S5</strong></th>
+<th><strong>S6</strong></th>
+<th><strong>S7</strong></th>
+<th><strong>S8</strong></th>
+<th><strong>Jeu</strong></th>
+<th><strong>Remarque</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>FREEDOM</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>NIGHTRIDER</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>EVELKNIEVEL</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>EIGHTBALL</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>POWERPLAY</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>MATAHARI</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>BLACKJACK</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>STRIKES_SPARES</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>LOSTWORLD</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>6MILLIONMAN</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>PLAYBOY</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>VOLTAN</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>SUPERSONIC</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>STARTREK</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>KISS</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>PARAGON</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">16</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>HARLEMGLOBE</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">17</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>DOLLYPARTON</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">18</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>FUTURESPA</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">19</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>NITROGROUND</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">20</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>SILVERBALLMANIA</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">21</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>SPACEINVADERS</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">22</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>ROLLINGSTONES</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">23</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>MYSTIC</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">24</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>HOTDOGGIN</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">25</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>VIKING</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">26</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>SKATEBALL</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">27</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>FRONTIER</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">28</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>XENON</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">29</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>FLASHGORDON</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">30</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>8BALLDELUXE</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">31</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>FIREBALLII</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">32</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>EMRYRON</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">33</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>FATHOM</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">34</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>MEDUSA</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">35</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>CENTAUR</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">36</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>ELEKTRA</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">37</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>VECTOR</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">38</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>MR_MRSPACMAN</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">39</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>SPECTRUM</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">40</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>SPEAKEASY</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">41</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>BMX</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">42</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>GRANDSLAM</td>
+<td>2 player</td>
+</tr>
+<tr>
+<td style="text-align: right;">43</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>GOLDBALL</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">44</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>XandOs</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">45</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>SPYHUNTER</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">46</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>KINGSOFSTEEL</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">47</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>BLACKPYRAMID</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">48</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>FIREBALCLASSIC</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">49</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>CYBERNAUT</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">50</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>NIGHTRIDER</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">51</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>EVELKNIEVEL</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">52</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>EIGHTBALL</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">53</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>POWERPLAY</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">54</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>MATAHARI</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">55</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>BLACKJACK</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">56</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>STRIKES_SPARES</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">57</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>LOSTWORLD</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">58</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>6MILLIONMAN</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">59</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>PLAYBOY</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">60</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>VOLTAN</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">61</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>SUPERSONIC</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">62</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>STARTREK</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">63</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>KISS</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">64</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>PARAGON</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">65</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>HARLEMGLOBE</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">66</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>DOLLYPARTON</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">67</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>FUTURESPA</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">68</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>NITROGROUND</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">69</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>SILVERBALLMANIA</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">70</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>SPACEINVADERS</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">71</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>ROLLINGSTONES</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">72</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>MYSTIC</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">73</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>HOTDOGGIN</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">74</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>VIKING</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">75</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>SKATEBALL</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">76</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>FRONTIER</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">77</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>XENON</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">78</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>FLASHGORDON</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">79</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>8BALLDELUXE</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">80</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>FIREBALLII</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">81</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>EMRYRON</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">82</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>FATHOM</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">83</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>MEDUSA</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">84</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>CENTAUR</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">85</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>ELEKTRA</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">86</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>VECTOR</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">87</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>MR_MRSPACMAN</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">88</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>SPECTRUM</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">89</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>SPEAKEASY</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">90</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>BMX</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">91</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>GOLDBALL</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">92</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>XandOs</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">93</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>SPYHUNTER</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">94</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>KINGSOFSTEEL</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">95</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>BLACKPYRAMID</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">96</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>FIREBALCLASSIC</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">97</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>CYBERNAUT</td>
+<td>Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">98</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>6MILLIONMAN</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">99</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>PLAYBOY</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">100</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>VOLTAN</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">101</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>SUPERSONIC</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">102</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>STARTREK</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">103</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>KISS</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">104</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>PARAGON</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">105</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>HARLEMGLOBE</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">106</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>DOLLYPARTON</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">107</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>FUTURESPA</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">108</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>NITROGROUND</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">109</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>SILVERBALLMANIA</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">110</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>SPACEINVADERS</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">111</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>ROLLINGSTONES</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">112</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>MYSTIC</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">113</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>HOTDOGGIN</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">114</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>VIKING</td>
+<td>7digit mod</td>
+</tr>
+<tr>
+<td style="text-align: right;">115</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>8BALLDELUXE</td>
+<td>Special</td>
+</tr>
+<tr>
+<td style="text-align: right;">116</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>EMBRYON</td>
+<td>Special</td>
+</tr>
+<tr>
+<td style="text-align: right;">117</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>VECTOR</td>
+<td>Special</td>
+</tr>
+<tr>
+<td style="text-align: right;">118</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>FATHOM</td>
+<td>Special</td>
+</tr>
+<tr>
+<td style="text-align: right;">119</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>NITROGROUND</td>
+<td>Special w. Sirene Patch</td>
+</tr>
+<tr>
+<td style="text-align: right;">120</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Pinball</td>
+<td>Stern</td>
+</tr>
+<tr>
+<td style="text-align: right;">121</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Stingray</td>
+<td>Stern</td>
+</tr>
+<tr>
+<td style="text-align: right;">122</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Stars</td>
+<td>Stern</td>
+</tr>
+<tr>
+<td style="text-align: right;">123</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Memory Lane</td>
+<td>Stern</td>
+</tr>
+<tr>
+<td style="text-align: right;">124</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Pinball</td>
+<td>Stern Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">125</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Stingray</td>
+<td>Stern Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">126</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Stars</td>
+<td>Stern Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">127</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>Memory Lane</td>
+<td>Stern Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">128</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>Tigerrag</td>
+<td>Bell Games</td>
+</tr>
+<tr>
+<td style="text-align: right;">129</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>8BALLDELUXE</td>
+<td>V32</td>
+</tr>
+<tr>
+<td style="text-align: right;">130</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>SPEAKEASY</td>
+<td>4 player</td>
+</tr>
+<tr>
+<td style="text-align: right;">131</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>SPEAKEASY</td>
+<td>4 player freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">132</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>Saturn2</td>
+<td>Bell Games</td>
+</tr>
+<tr>
+<td style="text-align: right;">133</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>Lectronamo</td>
+<td>Stern</td>
+</tr>
+<tr>
+<td style="text-align: right;">134</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>Lectronamo</td>
+<td>Stern Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">135</td>
+<td>on</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>World Defender</td>
+<td>Bell Games</td>
+</tr>
+<tr>
+<td style="text-align: right;">136</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>World Defender</td>
+<td>Bell Games Freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">137</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>Baby Pacman</td>
+<td>–</td>
+</tr>
+<tr>
+<td style="text-align: right;">138</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>Baby Pacman</td>
+<td>Okaegi version</td>
+</tr>
+<tr>
+<td style="text-align: right;">139</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>GRANDSLAM</td>
+<td>4 player</td>
+</tr>
+<tr>
+<td style="text-align: right;">140</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>GRANDSLAM</td>
+<td>2 player freeplay</td>
+</tr>
+<tr>
+<td style="text-align: right;">141</td>
+<td>on</td>
+<td>off</td>
+<td>on</td>
+<td>on</td>
+<td>off</td>
+<td>off</td>
+<td>off</td>
+<td>on</td>
+<td>GRANDSLAM</td>
+<td>4 player freeplay</td>
+</tr>
+</tbody>
+</table>
+<h2 id="annexe-b-description-des-rom">Annexe B description des ROM</h2>
+<p>La description fournie avec la collection de ROM 2732 utilisée pour
+l&#39;image, sans modification et donc en anglais. « Oliver » est l&#39;auteur
+des ROM personnalisées (partie gratuite et nouvelles fonctions).</p>
+<pre><code>2732 U2 &amp; U6 GAME ROM LIST - 6/30/05
+------------------------------------
+The following list of 1977-1985 Bally games is organized
+by U6 ROM type.  Many games share the same U6 ROM, so the list
+is organized in that manner. Note at the end of this list there
+are a number of custom ROM files modified by Oliver. These give
+all Bally games a free play option. He has also modified a few
+other games to have different play features.
+
+
+GAME        U2 POSITION U6 POSITION          
+----        ----------- -----------
+FREEDOM     FREE2732.U2 FREE2732.U6 
+                              
+NIGHT RIDER NGHT2732.U2 720-2132.U6                  
+EVEL KNIEVEL    EVEL2732.U2 720-2132.U6
+EIGHTBALL   8BAL2732.U2 720-2132.U6
+POWER PLAY  POWR2732.U2 720-2132.U6
+MATA HARI   MATA2732.U2 720-2132.U6      
+BLACK JACK  BLKJ2732.U2 720-2132.U6
+STRIKES/SPARES  STSP2732.U2 720-2132.U6 
+
+LOST WORLD  LOST2732.U2 720-2832.U6
+
+$6 MILLION MAN  6MIL2732.U2 720-3032.U6
+PLAYBOY     PLAY2732.U2 720-3032.U6
+VOLTAN      VOLT2732.U2 720-3032.U6
+SUPERSONIC  SURP2732.U2 720-3032.U6
+STAR TREK   STAR2732.U2 720-3032.U6
+KISS        KISS2732.U2 720-3032.U6
+PARAGON     PARA2732.U2     720-3032.U6
+
+HARLEM GLOBE    HARL2732.U2 720-3532.U6
+DOLLY PARTON    DOLL2732.U2 720-3532.U6
+FUTURE SPA  FSPA2732.U2 720-3532.U6
+NITRO GROUND    NITR2732.U2 720-3532.U6
+SILVERBALLMANIA SILV2732.U2 720-3532.U6
+SPACE INVADERS  INVA2732.U2 720-3532.U6 
+ROLLING STONES  ROLL2732.U2 720-3532.U6
+MYSTIC      MYST2732.U2 720-3532.U6
+HOT DOGGIN  HOTD2732.U2 720-3532.U6
+VIKING      VIKG2732.U2 720-3532.U6
+
+SKATEBALL   SKAT2732.U2 720-4032.U6
+FRONTIER    FRNT2732.U2 720-4032.U6
+XENON       XNON2732.U2 720-4032.U6
+
+FLASH GORDON    FLSH2732.U2 720-5232.U6
+8 BALL DELUXE   8DLX2732.U2 720-5232.U6
+FIREBALL II FB2_2732.U2 720-5232.U6
+EMRYRON     EMBY2732.U2 720-5232.U6
+
+FATHOM      FATH2732.U2 720-5332.U6
+MEDUSA      MDUS2732.U2 720-5332.U6
+CENTAUR     CENT2732.U2 720-5332.U6
+ELEKTRA     ELEK2732.U2 720-5332.U6
+VECTOR      VECT2732.U2 720-5332.U6
+MR/MRS PACMAN   MR&amp;S2732.U2 720-5332.U6 
+SPECTRUM    SPEC2732.U2 720-5332.U6
+SPEAKEASY   EASY2732.U2 720-5332.U6
+BMX     BMX_2732.U2 720-5332.U6
+GOLD BALL   GOLD2732.U2 720-5332.U6
+X&#39;s &amp; O&#39;s   X&amp;OS2732.U2 720-5332.U6
+SPY HUNTER  SPY_2732.U2 720-5332.U6
+KINGS OF STEEL  KNGS2732.U2 720-5332.U6
+BLACK PYRAMID   BLKP2732.U2 720-5332.U6
+FIREBAL CLASSIC FB_CLASS.U2 720-5332.U6
+CYBERNAUT   CYBE2732.U2 720-5332.U6
+
+GRAND SLAM  GRNDSLAM.U2 GRNDSLAM.U6
+
+
+
+
+
+2005 New Additions:
+===================
+
+720F3132.U6  by Oliver
+This file replace the 720-3132.U6 for the following games
+(the game specific U2 is unchanged):
+
+NIGHT RIDER NGHT2732.U2 720-2132.U6                  
+EVEL KNIEVEL    EVEL2732.U2 720-2132.U6
+EIGHTBALL   8BAL2732.U2 720-2132.U6
+POWER PLAY  POWR2732.U2 720-2132.U6
+MATA HARI   MATA2732.U2 720-2132.U6      
+BLACK JACK  BLKJ2732.U2 720-2132.U6
+STRIKES/SPARES  ST&amp;S2732.U2 720-2132.U6 
+
+version date    remark
+2     09/19/04  add free play
+        recalculate checksum
+        installation notes:
+        burn the file on 2732 eprom
+        after power on you will see the version number in the one player display
+        if dip switch 17 = on  and dip switch 18 = on and dip switch 19 = on
+        freeplay is enable: decrease credits not lower then 01
+----------------
+
+720F2832.U6  by Oliver
+This file replace the 720-2832.U6 for the following games
+(the game specific U2 is unchanged):
+
+LOST WORLD  LOST2732.U2 720-2832.U6
+
+version date    remark
+2     10/25/04  add free play
+        recalculate checksum
+        installation notes:
+        burn the file on 2732 eprom
+        after power on you will see the version number in the one player displays
+        if dip switch 19 = on  and dip switch 18 = on and dip swotch 17 = on
+        freeplay is enable: decrease credits not lower then 01
+----------------
+
+720F3032.U6  by Oliver
+This file replace the 720-3032.U6 for the following games
+(the game specific U2 is unchanged):
+
+$6 MILLION MAN  6MI$2732.U2 720-3032.U6
+PLAYBOY     PLAY2732.U2 720-3032.U6
+VOLTAN      VOLT2732.U2 720-3032.U6
+SUPERSONIC  SURP2732.U2 720-3032.U6
+STAR TREK   STAR2732.U2 720-3032.U6
+KISS        KISS2732.U2 720-3032.U6
+PARAGON     PARA2732.U2     720-3032.U6
+
+version date    remark
+3     09/11/04  add free play
+        recalculate checksum
+        installation notes:
+        burn the file on 2732 eprom
+        after power on you will see the version number in the one player displays
+        if dip switch 17 = on  and dip switch 18 = on and dip switch 19 = on
+        freeplay is enable: decrease credits not lower then 01
+----------------
+
+720F3532.U6  by Oliver
+This file replace the 720-3532.u6 for the following games:
+
+HARLEM GLOBE    HARL2732.U2 720-3532.U6
+DOLLY PARTON    DOLL2732.U2 720-3532.U6
+FUTURE SPA  FSPA2732.U2 720-3532.U6
+NITRO GROUND    NITR2732.U2 720-3532.U6
+SILVERBALLMANIA SILV2732.U2 720-3532.U6
+SPACE INVADERS  INVA2732.U2 720-3532.U6 
+ROLLING STONES  ROLL2732.U2 720-3532.U6
+MYSTIC      MYST2732.U2 720-3532.U6
+HOT DOGGIN  HOTD2732.U2 720-3532.U6
+VIKING      VIKG2732.U2 720-3532.U6
+
+version date    remark
+9     09/25/04  installation notes:
+        correct fake 0 handling (corrected with version 6)
+        Display only 00 instead of 000 during game (corrected with version 7)
+        Correct match routine for hotdogging and mystic (corrected with version 8)
+        new dip switches with version 9
+        
+        dip switch 25 = on and dip switch 26 = on enables freegame
+        decrease credits not lower then 01
+        dip switch 22 = on 3 freegames, off = 0 freegame if breaking high score to date
+
+        This files allows the usage of 7-digit displays instead of 6-digit, if desired.
+        Replace the four player 6-digit displays with 7-digit displays (only if dip switch 21 = on)
+        Install a little pcb (only if dip switch 21 = on)
+        Look here for the hardware part (only if dip switch 21 = on)
+        http://www.pinball4you.ch/okaegi/pro_d7.html
+        after power on you will see the version number in the one player displays
+        
+            dip switch 21 = off and use original 6 digit displays with 
+            the maximum player score of 999,990)
+            dip switch 21 = on  7 digit scoring     
+
+After the install erase the stored freegames and the highscore (setting 01 - 04).
+-----------------
+
+720F4032.U6  by Oliver
+This file replace the 720-4032.U6 for the following games
+(the game specific U2 is unchanged):
+
+SKATEBALL   SKAT2732.U2 720-4032.U6
+FRONTIER    FRNT2732.U2 720-4032.U6
+XENON       XNON2732.U2 720-4032.U6
+
+version date    remark
+1     10/03/04  add free play
+        recalculate checksum
+        installation notes:
+        burn the file on 2732 eprom
+        after power on you will see the version number in the one player displays
+        if dip switch 25 = on  and dip switch 26 = on 
+        freeplay is enable: decrease credits not lower then 01
+-----------------
+
+720F5232.U6  by Oliver
+This file replace the 720-5232.U6 for the following games
+(the game specific U2 is unchanged):
+
+FLASH GORDON    FLSH2732.U2 720-5232.U6
+8 BALL DELUXE   8DEL2732.U2 720-5232.U6
+FIREBALL II FB2-2732.U2 720-5232.U6
+EMRYRON     EMBY2732.U2 720-5232.U6 
+
+** For embryon a custom ROM version with new features and 7 digit scoring
+switchable is availiable.
+
+version date    remark
+1     10/06/04  add free play
+        recalculate checksum
+        installation notes:
+        burn the file on 2732 eprom
+        after power on you will see the version number in the one player displays
+        if dip switch 25 = on  and dip switch 26 = on 
+        freeplay is enable: decrease credits not lower then 01
+-----------------
+
+720F5332.U6  by Oliver
+This file replace the 720-5332.U6 for the following games
+(the game specific U2 is unchanged):
+
+FATHOM *    FATH2732.U2 720-5332.U6
+MEDUSA      MDUS2732.U2 720-5332.U6
+CENTAUR     CENT2732.U2 720-5332.U6
+ELEKTRA     ELEK2732.U2 720-5332.U6
+VECTOR *    VECT2732.U2 720-5332.U6
+MR/MRS PACMAN   MR&amp;S2732.U2 720-5332.U6 
+SPECTRUM    SPEC2732.U2 720-5332.U6
+SPEAKEASY   EASY2732.U2 720-5332.U6
+BMX     BMX-2732.U2 720-5332.U6
+GOLD BALL   GOLD2732.U2 720-5332.U6
+X&#39;s &amp; O&#39;s   X&amp;OS2732.U2 720-5332.U6
+SPY HUNTER  SPY-2732.U2 720-5332.U6
+KINGS OF STEEL  KNGS2732.U2 720-5332.U6
+BLACK PYRAMID   BLKP2732.U2 720-5332.U6
+FIREBAL CLASSIC FB-CLASS.U2 720-5332.U6
+CYBERNAUT   CYBE2732.U2 720-5332.U6
+
+* For Fathom and Vector a custom ROM versions with new features are available.
+
+version date    remark
+1     10/16/04  add free play
+        recalculate checksum
+        installation notes:
+        burn the file on 2732 eprom
+        after power on you will see the version number in the one player displays
+        if dip switch 25 = on  and dip switch 26 = on 
+        freeplay is enable: decrease credits not lower then 01
+-----------------
+
+EIGHT BALL DELUXE Deluxe Custom ROM files by Oliver.
+8DLX_v24.U2  (2732 EPROM)
+8DLX_v24.U6  (2732 EPROM)
+
+version date    remark
+24    06/04/05  add free play
+        add version nummber, 
+        recalculate checksum
+
+        installation notes:
+        burn the U2 and U6 file on 2732/2532 eproms
+        after power on you will see the version number in the one player displays
+        if dip switch 25 = on  and dip switch 26 = on 
+        freeplay is enable: decrease credits not lower then 01
+
+        Bonus bug for player 2 and 4 fixed (from production rom):
+        If the 56K or 112K bonus holdover light is lit while the bonus is being
+        scored, the game scores bonus for *9* balls for a total bonus count of
+        63K instead of 56K and 128K instead of 112K. This bug is fixed.
+        The ontime for the solenoid expander lamp is enlarged.
+        
+        A new skill shot is implemented:
+        1) When all the right horseshoes targets are down and the eight ball is 
+        hit, the deluxe targets are lit. (as production rom) 
+
+        No deluxe target is flashing at the beginning. 
+
+        2) After you hit any of the lit deluxe target, the flashing sequence 
+        starts. The next target deluxe is flashing. (For example if you hit 
+        de&quot;L&quot;uxe then the &quot;U&quot; is flashing). 
+    
+        3) If you hit a flashing deluxe target, then you get 15&#39;000 point and 
+        the next deluxe target flashes. (In this case the &quot;X&quot;). 
+
+        4) If you hit a dark deluxe target, the deluxe target keeps flashing. 
+
+        5) if you hit another lit deluxe target, the flashing stops. 
+
+        6) When you hit the last flashing deluxe target, you score 550&#39;000 
+        points and you hear &quot;eight ball deluxe&quot;.
+-----------------
+
+EMBRYON Custom ROM files by Oliver.
+EMBY_v9.U2 (2732 EPROM)
+EMBY_v9.U6 (2732 EPROM)
+
+version date    remark
+9     10/07/04  
+        add 7-digit displays for player 1 - 4, add version nummber, 
+        recalculate checksum
+        installation notes:
+        burn the two files on 2732 eprom        
+        
+        additional installation notes 
+        if you want 7 digit scoring, dip switch 32 = off:
+        replace the four player 6-digit displays with 7-digit displays 
+        Add an additional wire fom A4 (mpu) J1 Pin 7 to every player display pin 12 
+        (don&#39;t connect the credit display !)
+        after power on you will see the version number in the one player displays
+
+        dip switch 27 = on  -&gt; Give two embryon letters
+        dip switch 31 = on -&gt; 5 ball
+        dip switch 31 = off -&gt; 3 ball       
+        dip switch 32 = off -&gt; 7 digit scoring
+        dip switch 32 = on  -&gt; 6 digit scoring (orignal with 6 digit displays, maximum player score is 999&#39;990)
+
+        Credit Display always on,
+        A lightshow added with multiball start
+        also reset left targetbank for extraball
+        if dip switch 25 = on  and dip switch 26 = on 
+        freeplay is enable: decrease credits not lower then 01
+        delay before multiball start is a little bit longer 
+-----------------
+
+VECTOR Custom ROM files by Oliver.
+VECT_v5.U2 (2732 EPROM)
+VECT_v5.U6 (2732 EPROM)
+
+version date    remark
+5     10/16/04  freegame setting if (dip 25 / 26) = 1, adjust timing from speech 
+        (weak shoot,incredibel shoot, great shoot, new vector record..)
+
+        Vector Skill Plunger Shot.
+        Adds a potential skill shot to the Standard Vector Ruleset and 
+        incorporates the unused &quot;Super Shot&quot; voice quote.
+        Game awards a skill shot value (75K) if
+        the ball shot from the plunger goes over the rollover button. Feature is
+        cancelled when any other switch is hit. Every light of the right bonus 
+        ladder is lit when a new ball is served. After successful hit, 25k + 5k is lit.
+
+        &quot;[1,2,3] captured!&quot;
+        Incorporates the unused &quot;[1,2] captured&quot; voice quotes into the ball
+        lock sequence. Remove the &quot;energy stored&quot; phrazes
+        Rules:
+        - 1st ball locked: Game voices out &quot;1 caputred&quot; 
+        - 2nd ball locked: Gave voices out &quot;2 captured!&quot;
+        - 3nd ball locked: Gave voices out &quot;3 captured!&quot;
+        After 1 and 2 ball captured, the next quote &quot;Shoot for hype targets&quot; is used. 
+        After the 3 ball is locked, then the next quote &quot;powerballs released&quot; is used. 
+
+        Quick Multiball
+        Incorporates the unused &quot;Strategy Changed!&quot; voice quote into 
+        gameplay, which better defines the quick multiball feature which is started
+        via the H-Y-P-E targets when a ball is currently locked.
+        When Quick Multiball (2-Ball or 3-Ball) is started via the H-Y-P-E
+        targets, the game voices out &quot;Strategy Changed!&quot;.
+
+        &quot;Welcome to Vectordome!&quot;
+        Incorporates the unused &quot;Welcome to Vectordome!&quot; voice quote.
+        When START is pressed for Player 2, 3, or 4, the game voices out this quote. 
+
+        &quot;Double Vectorscan Value!&quot;
+        Incorporates the unused &quot;Double Vectorscan Value&quot; voice quote into
+        normal gameplay.
+        When the player achieves 2X on the Vectorscan multiplier (via H-Y-P-E
+        targets), the game voices out this quote.
+
+        &quot;Triple Vectorscan Value!&quot;
+        Incorporates the unused &quot;Triple Vectorscan Value&quot; voice quote into
+        normal gameplay.
+        When the player achieves 3X on the Vectorscan multiplier (via H-Y-P-E
+        targets), the game voices out this quote.
+
+        &quot;new vector record&quot;
+        Add the &quot;new vector record&quot; voice quote at the end of a play when the 
+        high score is beaten.
+
+        &quot;Right rollover button&quot;
+        Enlarge the scoring possibliltys on the right rollover button.
+        The normal counting sequence (5 -&gt; 10 -&gt; 15 -&gt; 20 -&gt; 25 is enlarged 
+        with 5,25 -&gt; 5,10,25 -&gt; 5,10,15,25 -&gt; 5,10,15,20,25)
+
+        &quot;Period completed!&quot;
+        Incorporates the unused &quot;Period completed!&quot; voice quote into normal gameplay.
+        After the player achieves 3X on the Vectorscan multiplier (via H-Y-P-E
+        targets), and no energy is in storage the game voices out this quote.
+
+        Use of &quot;Energy Stored&quot; Quote after outlane special
+-----------------
+
+FATHOM Custom ROM files by Oliver.
+FATH_v5.U2 (2732 EPROM)
+FATH_v5.U6 (2732 EPROM)
+
+version date    remarks
+5     10/16/04  freegame setting if dip 25 / 26 = 1
+
+        Skill Shot: 
+        At the start of each new ball, the A-B-C rollover lanes will cycle.
+        Try to get the ball through the lit lane on your opening shot.  
+        (The lane-change feature is disabled in the skill shot mode.)
+        Making the skill shot lights two 50k arrows.
+        DIP switch 24 on the MPU board is now disabled to allow this feature 
+        to work.
+
+        &quot;Air supply gone&quot;
+        This phrase is now spoken by the game when the extra ball is lit, 
+        and you don&#39;t collect it after 6 or 12 seconds.
+
+        &quot;Air gone&quot;
+        This phrase is now spoken by the machine when you lose the first 
+        ball during multiball mode.
+
+        &quot;The trap is set&quot;
+        This phrase is now spoken by the machine if you start a ball with 
+        no balls locked.  Otherwise, the standard &quot;Sea nymphs await!&quot; 
+        phrase is spoken (for 1st player up).
+
+        &quot;Aahh!&quot;
+        This phrase is now spoken by the game when starting for the 
+        2nd player added.
+
+        &quot;Aahh, yes!&quot;
+        This phrase is now spoken by the game when starting for 
+        3rd and 4th players added.</code></pre>
+</body>
+</html>
